@@ -34,6 +34,8 @@ cd zulfqar-of-coding
 
 Full flags and per-agent detail: [`SETUP.md`](SETUP.md).
 
+Optional service accounts, subscriptions, and credential setup: [`docs/ACCOUNT-SETUP.md`](docs/ACCOUNT-SETUP.md).
+
 ## Per-agent support matrix
 
 | Agent | Reads which instruction file | Skills? | MCP? | Subagent tiering? |
