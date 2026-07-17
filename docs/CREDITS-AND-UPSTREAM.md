@@ -31,13 +31,17 @@ upstream pattern, not straight installs.
 | **claude-mem** | [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | Apache-2.0 | Persistent cross-session memory for Claude Code — lets an agent recall "did we solve this before" across sessions instead of starting cold every time. |
 | **last30days** | [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill) | — (see repo) | Pulls recent (last-30-day) chatter on a topic across Reddit/X/YouTube/HN/GitHub/web in one pass — good for "what are people actually saying right now" questions that a static search misses. |
 | **security-guidance** | [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | — (see repo) | Anthropic's own official security-review plugin — baseline security-review pass, maintained by the same org that ships the agent. |
+| **accessibility-testing** | [Community-Access/accessibility-agents](https://github.com/Community-Access/accessibility-agents) | — (see repo) | Source for the locally reviewed accessibility-testing workflow. This toolkit records an install pointer rather than redistributing the skill. |
+| **security-threat-model** | [openai/skills](https://github.com/openai/skills) | — (see repo) | Source for the locally reviewed repository-grounded threat-modeling skill. Install from the pinned upstream revision recorded in `PROVENANCE.yaml`. |
+| **Supabase agent skills** | [supabase/agent-skills](https://github.com/supabase/agent-skills) | — (see repo) | Source for the reviewed Supabase and Postgres-best-practices skills. Install upstream; do not copy active project credentials or configuration. |
+| **Google Workspace CLI** | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Apache-2.0 | Optional `gws` CLI for Workspace automation. It states that it is not an officially supported Google product; OAuth state remains local. |
 
 ## License notes
 
 - **MIT** bundles (compound-engineering, apple-skills, ponytail): permissive,
   minimal obligation beyond preserving the copyright/license notice if you
   redistribute.
-- **Apache-2.0** bundles (impeccable, claude-mem): permissive but carries a
+- **Apache-2.0** bundles (impeccable, claude-mem, Google Workspace CLI): permissive but carries a
   **NOTICE file** requirement — if you redistribute the licensed work (with
   or without modification), any NOTICE file the upstream ships must be
   preserved and passed along. Since this toolkit only *points to* these

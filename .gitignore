@@ -11,6 +11,9 @@ __pycache__/
 .vscode/
 secrets/
 *.local
+backups/local/
+plugin-cache/
+marketplace-cache/
 
 # internal build scaffolding — never publish
 docs/plans/

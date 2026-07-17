@@ -83,3 +83,16 @@ wrap a third party's licensed plugin (point to it, don't vendor it — see
 paths, account-specific tooling) that wouldn't function for a stranger cloning this repo. Their
 *methods*, where genuinely novel, are folded into the docs above rather than shipped as
 dead-on-arrival skill files.
+
+### Reviewed adopted skills
+
+These skills are installed in the audited local environment but remain upstream pointers because this repository does not vendor third-party packages:
+
+| Skill | Purpose | Canonical source |
+|---|---|---|
+| `accessibility-testing` | WCAG, keyboard, focus, semantics, reflow, and reduced-motion auditing | [Community-Access/accessibility-agents](https://github.com/Community-Access/accessibility-agents) |
+| `security-threat-model` | Repository-grounded AppSec threat modeling | [OpenAI skills](https://github.com/openai/skills) |
+| `supabase` | CLI-first Supabase development and security workflows | [Supabase agent skills](https://github.com/supabase/agent-skills) |
+| `supabase-postgres-best-practices` | Postgres schema, query, and performance guidance | [Supabase agent skills](https://github.com/supabase/agent-skills) |
+
+Repo-scoped `design`, `apps`, `growth`, and `voice` collections are documented in [`packs/README.md`](../packs/README.md). Their third-party payloads are intentionally not copied here.

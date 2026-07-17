@@ -12,6 +12,34 @@
 # notes) and THIRD-PARTY-NOTICES.md for derived/reimplemented shipped
 # artifacts (full detail + MIT license text).
 
+- artifact: accessibility-testing
+  upstream: Community-Access/accessibility-agents
+  url: https://github.com/Community-Access/accessibility-agents
+  ref: 0872b4a
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: security-threat-model
+  upstream: openai/skills
+  url: https://github.com/openai/skills
+  ref: 49f948faa9258a0c61caceaf225e179651397431
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: supabase-agent-skills
+  upstream: supabase/agent-skills
+  url: https://github.com/supabase/agent-skills
+  ref: 1ad9aaeb49caafd9e95c0a91116f71890eebbc53
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: google-workspace-cli
+  upstream: googleworkspace/cli
+  url: https://github.com/googleworkspace/cli
+  ref: v0.22.5
+  license: Apache-2.0
+  relationship: pointer
+
 - artifact: compound-engineering
   upstream: EveryInc/compound-engineering-plugin
   url: https://github.com/EveryInc/compound-engineering-plugin

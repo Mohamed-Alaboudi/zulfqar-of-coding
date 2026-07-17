@@ -537,7 +537,7 @@ selftest() {
 Contact: jane.doe@sample-mail.net for details.
 SSN on file: 219-09-9999
 Card on file: 4111-1111-1111-1112
-stripe: sk_test_A0000000000000000A99z
+stripe: STRIPE_KEY_FIXTURE
 openai: sk-proj-A0000000000000000abcdEFGHijkl
 generic key: sk-A0000000000000000abcdEF
 github: ghp_A0000000000000000abcdEFGHijkl
@@ -546,7 +546,7 @@ aws id: AKIA0000000000000A99
 aws_secret_key = "A0000000000000000abcdEFGHijklMNOPqrstUVW9"
 -----BEGIN RSA PRIVATE KEY-----
 password: hunter2synthetic
-jwt: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDAwIn0.A0000000sigA0000000sig
+jwt: JWT_FIXTURE
 server ip 10.20.30.41 responded
 call me at 415-555-0182
 uuid here 12345678-90ab-cdef-1234-567890abcdef done
@@ -569,8 +569,12 @@ SAMPLES
   local sed_i=(-i '')
   case "$(uname -s)" in Linux) sed_i=(-i) ;; esac
   local slack_token_fixture="xoxb"'-0000000000-0000000000-A0000000000000000abcd'
+  local stripe_key_fixture="sk_"'test_A0000000000000000A99z'
+  local jwt_fixture='eyJhbGciOiJIUzI1NiJ9.'"eyJzdWIiOiIwMDAwIn0"'.A0000000sigA0000000sig'
   sed "${sed_i[@]}" \
     -e "s/SLACK_TOKEN_FIXTURE/${slack_token_fixture}/" \
+    -e "s/STRIPE_KEY_FIXTURE/${stripe_key_fixture}/" \
+    -e "s/JWT_FIXTURE/${jwt_fixture}/" \
     -e 's/HANDLE_TOKEN/Hamoodey/' \
     -e 's/COMPANY_A_TOKEN/Liberty Pay/' \
     -e 's/COMPANY_B_TOKEN/Together Tech/' \
@@ -604,7 +608,7 @@ SAMPLES
   echo "== selftest: redaction (raw secrets must not appear in output) =="
   local raw_secrets=(
     "jane.doe@sample-mail.net"
-    "sk_test_A0000000000000000A99z"
+    "${stripe_key_fixture}"
     "sk-proj-A0000000000000000abcdEFGHijkl"
     "ghp_A0000000000000000abcdEFGHijkl"
     "12345678-90ab-cdef-1234-567890abcdef"

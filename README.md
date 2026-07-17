@@ -19,6 +19,7 @@ That one decision is most of what "superpowers ~24 agents at once" means in prac
 - **stop-slop** — a lightweight pass that strips generic AI writing tells (the "not just X, it's Y" cadence, reflexive hedging, em-dash spam) without needing a voice corpus.
 - **The build-lean ladder** — the rung-by-rung discipline for not writing code that didn't need to exist: see `AGENTS.md` Operating principles.
 - **Guardrail + anti-sycophancy hook patterns** — pre-commit-style hooks that block secret commits and force-pushes to protected branches, plus a prompt-submit hook pattern that keeps agent feedback honest instead of reflexively agreeable.
+- **Public-safe environment map** — audited manifests for repo-scoped packs, adopted plugins, MCP templates, CLI tooling, status-line configuration, and backup boundaries without publishing private runtime state.
 
 ## 60-second quickstart
 
@@ -60,8 +61,14 @@ docs/
   AGENTS-MD-GUIDE.md       how to write your own AGENTS.md
   SKILLS.md                skill index and routing
   CREDITS-AND-UPSTREAM.md  where ideas and code came from
+  PUBLIC-AUDIT.md           included, referenced, and private-only assets
+  clis/CLIS.md              CLI inventory, including Google Workspace CLI
   skills/DEEP-RESEARCH.md  the deep-research method in full
 skills/                  portable SKILL.md packages
+packs/                   design/apps/growth/voice pack contract
+plugins/                 adopted plugin inventory (no caches vendored)
+statusline/              placeholder-only status-line configuration
+backups/                 policy only; backup payloads stay private
 scripts/
   install.sh              installer (--agent, --dry-run, --skills-only, ...)
   scan-secrets.sh          leak check, run before every push
@@ -71,3 +78,5 @@ scripts/
 ## Credits
 
 This toolkit distills patterns developed across real projects and borrows structural ideas from the wider agent-tooling ecosystem. Full attribution and upstream links: [`docs/CREDITS-AND-UPSTREAM.md`](docs/CREDITS-AND-UPSTREAM.md) and [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
+
+The release boundary and privacy exclusions are recorded in [`docs/PUBLIC-AUDIT.md`](docs/PUBLIC-AUDIT.md).

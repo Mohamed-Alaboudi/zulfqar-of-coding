@@ -347,8 +347,8 @@ selftest() {
 Contact: jane.doe@sample-mail.net for details.
 SSN on file: 219-09-9999
 Card on file: 4111-1111-1111-1112
-generic key: sk-abcdEFGH1234567890abcd
-stripe: sk_test_A0000000000000000A99
+generic key: GENERIC_KEY_FIXTURE
+stripe: STRIPE_KEY_FIXTURE
 openai: sk-proj-A000000000abcdEFGHijklMNOP
 github: ghp_A000000000abcdEFGHijklMNOP
 aws id: AKIA0000000000000A99
@@ -359,6 +359,15 @@ jwt: eyJhbGciOiJIUzI1NiJ9.eyJmYWtlIjp0cnVlfQ.A0000sigA0000sigA0000sig
 server ip 10.20.30.41 responded
 call me at 415-555-0182
 SAMPLES
+
+  local generic_key_fixture="sk"'-abcdEFGH1234567890abcd'
+  local stripe_key_fixture="sk_"'test_A0000000000000000A99'
+  local sed_i=(-i '')
+  case "$(uname -s)" in Linux) sed_i=(-i) ;; esac
+  sed "${sed_i[@]}" \
+    -e "s/GENERIC_KEY_FIXTURE/${generic_key_fixture}/" \
+    -e "s/STRIPE_KEY_FIXTURE/${stripe_key_fixture}/" \
+    "$tmp"
 
   local out
   out="$(run_scan "$tmp" 2>&1)"
@@ -385,8 +394,8 @@ SAMPLES
     "jane.doe@sample-mail.net"
     "219-09-9999"
     "4111-1111-1111-1112"
-    "sk-abcdEFGH1234567890abcd"
-    "sk_test_A0000000000000000A99"
+    "${generic_key_fixture}"
+    "${stripe_key_fixture}"
     "sk-proj-A000000000abcdEFGHijklMNOP"
     "ghp_A000000000abcdEFGHijklMNOP"
     "AKIA0000000000000A99"
