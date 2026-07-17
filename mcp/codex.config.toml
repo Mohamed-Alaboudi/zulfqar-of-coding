@@ -3,11 +3,11 @@
 #
 # Add with either:
 #   codex mcp add context7 --url https://mcp.context7.com/mcp
-#   codex mcp add duckduckgo -- uvx duckduckgo-mcp-server
+#   codex mcp add duckduckgo -- uvx duckduckgo-mcp-server==0.5.0
 #   codex mcp add serena -- serena start-mcp-server
 #   codex mcp add exa --url https://mcp.exa.ai/mcp --header "x-api-key=${EXA_API_KEY}"
-#   codex mcp add firecrawl --env FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp
-#   codex mcp add playwright -- npx @playwright/mcp@latest
+#   codex mcp add firecrawl --env FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.22.3
+#   codex mcp add playwright -- npx @playwright/mcp@0.0.78
 #
 # ...or paste the blocks below directly into ~/.codex/config.toml.
 
@@ -16,7 +16,7 @@ url = "https://mcp.context7.com/mcp"
 
 [mcp_servers.duckduckgo]
 command = "uvx"
-args = ["duckduckgo-mcp-server"]
+args = ["duckduckgo-mcp-server==0.5.0"]
 
 [mcp_servers.serena]
 command = "serena"
@@ -30,14 +30,14 @@ x-api-key = "${EXA_API_KEY}"
 
 [mcp_servers.firecrawl]
 command = "npx"
-args = ["-y", "firecrawl-mcp"]
+args = ["-y", "firecrawl-mcp@3.22.3"]
 
 [mcp_servers.firecrawl.env]
 FIRECRAWL_API_KEY = "${FIRECRAWL_API_KEY}"
 
 [mcp_servers.playwright]
 command = "npx"
-args = ["@playwright/mcp@latest"]
+args = ["@playwright/mcp@0.0.78"]
 
 # playwright note: first run opens an interactive browser session for auth/
 # trust prompts — run it once locally before relying on it headless in CI.

@@ -57,7 +57,7 @@ Add CI that runs shell syntax checks, manifest validation, scanner self-tests, t
 
 - Every documented installer mode executes successfully, and no undocumented mode is presented as supported.
 - Verification fails when any expected package skill is absent, even if unrelated skills exist.
-- No executable MCP dependency is unversioned or uses `@latest`.
+- No package-resolved MCP dependency is unversioned or uses `@latest`; external CLI prerequisites are identified separately.
 - Codex and Claude manifests validate and reference the canonical root skills.
 - CI passes all isolated install, syntax, manifest, and secret-scan checks.
 - A fresh adversarial review finds no unsupported “best” claim, credential exposure, or duplicated skill source.

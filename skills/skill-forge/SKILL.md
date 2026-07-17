@@ -1,6 +1,6 @@
 ---
 name: skill-forge
-description: Use when authoring or hardening an agent skill (Claude Code SKILL.md or a Codex skill using the same spec) — scaffolds frontmatter, writes a pushy plus anti-trigger description, and runs a fresh-subagent firing test before you trust it. Triggers: build or author a skill, scaffold or skill-ify a workflow, a skill isn't auto-firing, Skills-spec lookup. NOT for one-off solutions, single-repo conventions (put those in that repo's CLAUDE.md/AGENTS.md), or anything a hook or validator already enforces.
+description: "Use when authoring or hardening an agent skill (Claude Code SKILL.md or a Codex skill using the same spec) — scaffolds frontmatter, writes a pushy plus anti-trigger description, and runs a fresh-subagent firing test before you trust it. Triggers: build or author a skill, scaffold or skill-ify a workflow, a skill isn't auto-firing, Skills-spec lookup. NOT for one-off solutions, single-repo conventions (put those in that repo's CLAUDE.md/AGENTS.md), or anything a hook or validator already enforces."
 ---
 
 # Skill Forge

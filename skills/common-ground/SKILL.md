@@ -1,6 +1,6 @@
 ---
 name: common-ground
-description: Surface hidden project assumptions and persist them into docs/common-ground.md with an OPEN/WORKING/ESTABLISHED tier, so a long project stays honest about what's assumed vs known. Modes: default (surface + file), --list, --check, --graph.
+description: "Surface hidden project assumptions and persist them into docs/common-ground.md with an OPEN/WORKING/ESTABLISHED tier, so a long project stays honest about what's assumed vs known. Modes: default (surface + file), --list, --check, --graph."
 ---
 
 # Common ground

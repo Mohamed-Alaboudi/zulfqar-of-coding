@@ -6,7 +6,7 @@ Full install walkthrough for Zulfqar of Coding.
 
 - `git`
 - `bash` (installer is POSIX-ish bash; works on macOS/Linux, and on Windows under WSL or Git Bash)
-- Optional: [`gitleaks`](https://github.com/gitleaks/gitleaks) — if present, `scripts/scan-secrets.sh` uses it for a deeper scan; otherwise it falls back to a grep-based pattern check.
+- Optional: [`gitleaks`](https://github.com/gitleaks/gitleaks) as an independent second scanner. The required `scripts/scan-secrets.sh` gate is a dependency-free Bash pattern scanner.
 
 ## Clone
 
@@ -18,7 +18,7 @@ cd zulfqar-of-coding
 ## `install.sh` flags
 
 ```bash
-./install.sh --agent=<name>     # claude | codex | cursor | gemini | generic
+./install.sh --agent=<name>     # claude | codex | cursor | all
 ./install.sh --dry-run          # print planned actions, write nothing
 ./install.sh --skills-only      # install skills only, skip config/hook wiring
 ./install.sh --symlink          # opt-in: symlink skills instead of copying
@@ -45,14 +45,12 @@ Skills land in `~/.claude/skills/`. If you'd rather scope them to one project, c
 ./install.sh --agent=codex
 ```
 
-Skills land in `~/.codex/skills/` (or `.agents/skills/` if that convention is detected in the target project). Codex Skills are currently **experimental** — you may need to enable the skills flag in your Codex config before it will load them. Codex reads `AGENTS.md` natively at the project root; no extra step needed there.
+Skills land in `~/.codex/skills/`. For repository-scoped installation, copy selected skills into `<project>/.agents/skills/` yourself. Codex reads `AGENTS.md` natively at the project root; no extra step is needed there.
 
-### Cursor / generic agents
+### Cursor / other AGENTS.md-native agents
 
 ```bash
 ./install.sh --agent=cursor
-# or
-./install.sh --agent=generic
 ```
 
 Cursor and most other `AGENTS.md`-native agents need no skill installation step — they read `AGENTS.md` directly. The installer's job here is mostly copying `templates/AGENTS.md` into your project if you don't already have one. Path convention: keep `AGENTS.md` at the project root; nested `AGENTS.md` files in subdirectories are supported by several agents (Codex, Cursor) as directory-scoped overrides.
@@ -83,6 +81,6 @@ Cursor and most other `AGENTS.md`-native agents need no skill installation step 
 
 **Skill-name collisions.** If a skill you're installing shares a name with one already present, the installer skips it by default and reports the conflict — pass `--force` to overwrite. Check what you're overwriting first; a same-named skill from a different source may have different behavior.
 
-**Codex doesn't pick up skills.** Confirm the experimental skills flag is enabled in your Codex config, and that the skill landed in the path Codex actually scans (`~/.codex/skills/` vs `.agents/skills/` — this varies by Codex version). Run `./install.sh --agent=codex --dry-run` to see which path it targets on your machine.
+**Codex doesn't pick up skills.** Confirm that the skill landed in `~/.codex/skills/`. Run `./install.sh --agent=codex --dry-run` to preview the target before installation.
 
 **Agent isn't reading `AGENTS.md` at all.** Confirm the file is at the project root (not nested, unless your agent explicitly supports directory-scoped overrides), and that it's committed — some agents only read tracked files.

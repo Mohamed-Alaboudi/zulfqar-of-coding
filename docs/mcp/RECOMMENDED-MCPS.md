@@ -9,11 +9,11 @@ keep. Config for both formats lives next to this doc:
 | MCP | Tier | Key needed? | Install | Note |
 |---|---|---|---|---|
 | **context7** | Core | No | `http` — `https://mcp.context7.com/mcp` | Live, version-pinned library docs. Pull this before trusting your own training data on any API surface — SDKs move faster than model knowledge cutoffs. |
-| **duckduckgo** | Core | No | `stdio` — `uvx duckduckgo-mcp-server` | Zero-config web search fallback. No account, no rate-limit surprises. Good default when you don't want to manage a search API key at all. |
-| **serena** | Core | No | `stdio` — `serena start-mcp-server` | Symbol-level code navigation (find/rename/insert by symbol, not by line) across large repos. Cuts token spend versus grep-and-read loops on codebases in the tens of thousands of lines. |
+| **duckduckgo** | Core | No | `stdio` — `uvx duckduckgo-mcp-server==0.5.0` | Zero-config web search fallback. No account, no rate-limit surprises. Good default when you don't want to manage a search API key at all. |
+| **serena** | Core | No | `stdio` — `serena start-mcp-server` | Symbol-level code navigation across large repos. Serena is an external CLI prerequisite, not downloaded by this template; install and version-manage it separately. |
 | **exa** | Power | **Yes** — `EXA_API_KEY` | `http` — `https://mcp.exa.ai/mcp`, header `x-api-key: ${EXA_API_KEY}` | Neural/semantic web search, meaningfully better than keyword search for "find me the thing that matches this concept" queries. Paid tier past a free quota. |
-| **firecrawl** | Power | **Yes** — `FIRECRAWL_API_KEY` | `stdio` — `npx -y firecrawl-mcp`, env `FIRECRAWL_API_KEY` | Full-page scraping/crawling/extraction with JS rendering — handles sites that block plain HTTP fetches. Paid tier past a free quota. |
-| **playwright** | Power | No (interactive auth) | `stdio` — `npx @playwright/mcp@latest` | Real browser automation: click, type, screenshot, drive auth flows. First run pops an interactive browser window for trust/login prompts — do that once locally before expecting it to work headless. |
+| **firecrawl** | Power | **Yes** — `FIRECRAWL_API_KEY` | `stdio` — `npx -y firecrawl-mcp@3.22.3`, env `FIRECRAWL_API_KEY` | Full-page scraping/crawling/extraction with JS rendering — handles sites that block plain HTTP fetches. Paid tier past a free quota. Review and update the pin deliberately. |
+| **playwright** | Power | No (interactive auth) | `stdio` — `npx @playwright/mcp@0.0.78` | Real browser automation: click, type, screenshot, drive auth flows. First run pops an interactive browser window for trust/login prompts — do that once locally before expecting it to work headless. Review and update the pin deliberately. |
 
 ## Tiers, explained
 

@@ -1,0 +1,19 @@
+name: Verify public package
+
+on:
+  pull_request:
+  push:
+    branches: [main, "feat/**", "fix/**", "docs/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run package verification
+        shell: bash
+        run: bash tests/run.sh

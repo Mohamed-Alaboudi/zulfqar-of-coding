@@ -15,6 +15,11 @@
 
 set -euo pipefail
 
+# Preserve the caller's input stream for confirmations. Skill installation
+# reads its manifest on stdin inside a loop, so prompts must not inherit that
+# redirected descriptor.
+exec 3<&0
+
 # ---------------------------------------------------------------------------
 # Paths — no hardcoded home directory anywhere below; everything derived
 # from the HOME env var and the script's own location.
@@ -231,6 +236,7 @@ fi
 # Skill install
 # ---------------------------------------------------------------------------
 SRC_SKILLS_DIR="${REPO_ROOT}/skills"
+SKILL_MANIFEST="${SRC_SKILLS_DIR}/manifest.txt"
 INSTALLED_SKILL_COUNT=0
 SKIPPED_SKILL_COUNT=0
 
@@ -259,7 +265,7 @@ install_one_skill() {
       printf '  [confirm] --force will DELETE it and replace it with this repo'"'"'s copy.\n'
       printf '  [confirm] Overwrite %s ? [y/N] ' "${dest}"
       local reply=""
-      read -r reply || reply=""
+      read -r reply <&3 || reply=""
       case "${reply}" in
         y|Y|yes|YES) ;;
         *)
@@ -304,17 +310,31 @@ if [ "${#TARGET_SKILL_DIRS[@]}" -gt 0 ]; then
     printf 'install.sh: ABORT — skills source dir not found: %s\n' "${SRC_SKILLS_DIR}" >&2
     exit 1
   fi
+  if [ ! -f "${SKILL_MANIFEST}" ]; then
+    printf 'install.sh: ABORT — skills/manifest.txt not found: %s\n' "${SKILL_MANIFEST}" >&2
+    exit 1
+  fi
 
   for target_parent in "${TARGET_SKILL_DIRS[@]}"; do
     log "  target: ${target_parent}"
     if [ "${DRY_RUN}" -eq 1 ] && [ ! -d "${target_parent}" ]; then
       plan "would create ${target_parent}"
     fi
-    for skill_src in "${SRC_SKILLS_DIR}"/*/; do
-      [ -d "${skill_src}" ] || continue
-      skill_src="${skill_src%/}"
+    while IFS= read -r skill_name || [ -n "${skill_name}" ]; do
+      case "${skill_name}" in ""|\#*) continue ;; esac
+      case "${skill_name}" in
+        *[!a-z0-9-]*)
+          printf 'install.sh: ABORT — invalid skill name in manifest: %s\n' "${skill_name}" >&2
+          exit 1
+          ;;
+      esac
+      skill_src="${SRC_SKILLS_DIR}/${skill_name}"
+      if [ ! -d "${skill_src}" ]; then
+        printf 'install.sh: ABORT — manifest skill source not found: %s\n' "${skill_src}" >&2
+        exit 1
+      fi
       install_one_skill "${skill_src}" "${target_parent}"
-    done
+    done < "${SKILL_MANIFEST}"
   done
   log "  skills installed: ${INSTALLED_SKILL_COUNT}, skipped: ${SKIPPED_SKILL_COUNT}"
 fi
@@ -537,7 +557,7 @@ fi
 VERIFY_SCRIPT="${REPO_ROOT}/scripts/verify-install.sh"
 if [ -f "${VERIFY_SCRIPT}" ]; then
   step "Running verify-install.sh"
-  bash "${VERIFY_SCRIPT}" --agent="${AGENT}"
+  bash "${VERIFY_SCRIPT}" --agent="${AGENT}" --project-dir="${PROJECT_DIR}"
 else
   log "  verify-install.sh not found at ${VERIFY_SCRIPT} — skipping verification."
 fi

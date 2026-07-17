@@ -8,6 +8,7 @@
 # Usage:
 #   scripts/verify-install.sh [--agent=claude|codex|cursor|all]
 #                              [--project-dir=PATH]
+#                              [--skills-dir=PATH]
 #
 # Exit 0 on success (checks that legitimately don't apply — e.g. no MCP
 # config because --write-mcp was never used — are reported as "n/a", not
@@ -20,13 +21,15 @@ HOME_DIR="${HOME:?HOME environment variable is not set}"
 
 AGENT=""
 PROJECT_DIR="$(pwd)"
+SKILLS_DIR_OVERRIDE=""
 
 for arg in "$@"; do
   case "${arg}" in
     --agent=*)       AGENT="${arg#--agent=}" ;;
     --project-dir=*) PROJECT_DIR="${arg#--project-dir=}" ;;
+    --skills-dir=*)  SKILLS_DIR_OVERRIDE="${arg#--skills-dir=}" ;;
     -h|--help)
-      printf 'Usage: %s [--agent=claude|codex|cursor|all] [--project-dir=PATH]\n' "$0"
+      printf 'Usage: %s [--agent=claude|codex|cursor|all] [--project-dir=PATH] [--skills-dir=PATH]\n' "$0"
       exit 0
       ;;
   esac
@@ -36,6 +39,10 @@ CLAUDE_HOME="${HOME_DIR}/.claude"
 CODEX_HOME="${HOME_DIR}/.codex"
 CLAUDE_SKILLS_DIR="${CLAUDE_HOME}/skills"
 CODEX_SKILLS_DIR="${CODEX_HOME}/skills"
+if [ -n "${SKILLS_DIR_OVERRIDE}" ]; then
+  CLAUDE_SKILLS_DIR="${SKILLS_DIR_OVERRIDE}"
+  CODEX_SKILLS_DIR="${SKILLS_DIR_OVERRIDE}"
+fi
 
 if [ -z "${AGENT}" ]; then
   have_claude=0; have_codex=0
@@ -52,6 +59,14 @@ if [ -z "${AGENT}" ]; then
   fi
 fi
 
+case "${AGENT}" in
+  claude|codex|cursor|all) ;;
+  *)
+    printf 'verify-install.sh: --agent must be one of claude|codex|cursor|all (got: %s)\n' "${AGENT}" >&2
+    exit 2
+    ;;
+esac
+
 OK=1
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -66,33 +81,31 @@ printf 'Verifying install (agent: %s)\n\n' "${AGENT}"
 # ---------------------------------------------------------------------------
 # Skills dir check
 # ---------------------------------------------------------------------------
-count_skills() {
-  # $1 = dir. Counts installed skill dirs (real dirs or symlinks to dirs)
-  # that contain a SKILL.md, so stray files in the skills dir don't inflate
-  # the count.
-  local dir="$1" n=0
-  [ -d "${dir}" ] || { echo 0; return 0; }
-  for entry in "${dir}"/*/; do
-    [ -d "${entry}" ] || continue
-    if [ -f "${entry}SKILL.md" ]; then
-      n=$((n + 1))
-    fi
-  done
-  echo "${n}"
-}
-
 check_skills_dir() {
   local label="$1" dir="$2"
   if [ ! -d "${dir}" ]; then
     fail "${label} skills dir not found: ${dir}"
     return 0
   fi
-  local n
-  n="$(count_skills "${dir}")"
-  if [ "${n}" -gt 0 ]; then
-    pass "${label} skills dir exists with ${n} installed skill(s): ${dir}"
-  else
-    fail "${label} skills dir exists but contains 0 recognizable skills (no SKILL.md found): ${dir}"
+  local manifest="${REPO_ROOT}/skills/manifest.txt"
+  local skill_name expected=0 missing=0
+  if [ ! -f "${manifest}" ]; then
+    fail "expected-skill manifest not found: ${manifest}"
+    return 0
+  fi
+  while IFS= read -r skill_name || [ -n "${skill_name}" ]; do
+    case "${skill_name}" in ""|\#*) continue ;; esac
+    expected=$((expected + 1))
+    if [ ! -f "${dir}/${skill_name}/SKILL.md" ]; then
+      fail "${label} skill missing: ${dir}/${skill_name}/SKILL.md"
+      missing=$((missing + 1))
+    elif ! cmp -s "${REPO_ROOT}/skills/${skill_name}/SKILL.md" "${dir}/${skill_name}/SKILL.md"; then
+      fail "${label} skill differs from this Zulfqar release: ${dir}/${skill_name}/SKILL.md"
+      missing=$((missing + 1))
+    fi
+  done < "${manifest}"
+  if [ "${missing}" -eq 0 ]; then
+    pass "${label} has all ${expected} expected Zulfqar skills: ${dir}"
   fi
 }
 
@@ -182,9 +195,6 @@ if [ "${OK}" -eq 1 ]; then
   printf '\nNext steps:\n'
   case "${AGENT}" in
     claude|all) printf '  - Restart Claude Code (or run /doctor) to pick up newly installed skills.\n' ;;
-  esac
-  case "${AGENT}" in
-    codex|all) printf '  - Confirm the experimental skills flag is enabled in your Codex config.\n' ;;
   esac
   printf '  - Fill in the Commands / Project structure / Boundaries sections of your AGENTS.md.\n'
   printf '  - Run scripts/scan-secrets.sh in YOUR project before your first push, same as this repo does.\n'

@@ -1,0 +1,23 @@
+{
+  "name": "zulfqar-of-coding",
+  "version": "0.1.0",
+  "description": "Portable, safety-gated coding-agent workflows for Codex, Claude Code, and AGENTS.md-compatible tools.",
+  "author": {
+    "name": "Zulfqar of Coding contributors",
+    "url": "https://github.com/Mohamed-Alaboudi/zulfqar-of-coding"
+  },
+  "repository": "https://github.com/Mohamed-Alaboudi/zulfqar-of-coding",
+  "license": "MIT",
+  "keywords": ["coding-agents", "codex", "claude-code", "skills"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Zulfqar of Coding",
+    "shortDescription": "Safety-gated workflows for coding agents",
+    "longDescription": "Portable instructions, skills, verification gates, and research workflows for Codex, Claude Code, and AGENTS.md-compatible coding agents.",
+    "developerName": "Zulfqar of Coding contributors",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://github.com/Mohamed-Alaboudi/zulfqar-of-coding",
+    "defaultPrompt": ["Apply the relevant Zulfqar workflow to this task."]
+  }
+}

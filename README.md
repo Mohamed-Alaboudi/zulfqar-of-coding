@@ -36,6 +36,12 @@ Full flags and per-agent detail: [`SETUP.md`](SETUP.md).
 
 Optional service accounts, subscriptions, and credential setup: [`docs/ACCOUNT-SETUP.md`](docs/ACCOUNT-SETUP.md).
 
+## Native plugin packaging
+
+The repository root is an installable plugin source for both Codex and Claude Code. It ships `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`, and both manifests reference the same canonical `skills/` tree—there is no duplicated generated bundle to drift.
+
+For local Claude Code evaluation, clone the repository and launch `claude --plugin-dir /path/to/zulfqar-of-coding`. For Codex, add or install the repository through the current Codex plugin interface. Marketplace publication is intentionally not claimed; use the source checkout until a versioned marketplace entry is released.
+
 ## Per-agent support matrix
 
 | Agent | Reads which instruction file | Skills? | MCP? | Subagent tiering? |

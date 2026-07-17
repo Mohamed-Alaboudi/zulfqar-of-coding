@@ -1,0 +1,20 @@
+# Canonical Zulfqar skill set. One directory name per line.
+bookend
+brainstorming
+common-ground
+doubt-driven-development
+exa
+grill-with-docs
+handoff
+honest-feedback
+long-horizon-prompting
+prompt-creator
+re-entry
+receiving-code-review
+security-validators
+skill-forge
+stop-slop
+systematic-debugging
+unstick
+verification-before-completion
+writing-plans

@@ -1,6 +1,6 @@
 ---
 name: prompt-creator
-description: Meta-prompt master — turns a rough idea, one-liner, messy draft, or underperforming prompt into one excellent prompt for a model/agent. Triggers: "turn this into a prompt", "make this a better prompt", "meta-prompt this", "write/improve a prompt", "draft a system prompt / agent instructions". NOT for a self-contained handoff prompt (already bookended) or voice/TTS scripts (project TTS rules govern).
+description: 'Meta-prompt master — turns a rough idea, one-liner, messy draft, or underperforming prompt into one excellent prompt for a model/agent. Triggers: "turn this into a prompt", "make this a better prompt", "meta-prompt this", "write/improve a prompt", "draft a system prompt / agent instructions". NOT for a self-contained handoff prompt (already bookended) or voice/TTS scripts (project TTS rules govern).'
 ---
 
 # Prompt Creator — meta-prompt master

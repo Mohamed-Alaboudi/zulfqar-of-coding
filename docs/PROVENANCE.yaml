@@ -12,6 +12,35 @@
 # notes) and THIRD-PARTY-NOTICES.md for derived/reimplemented shipped
 # artifacts (full detail + MIT license text).
 
+- artifact: firecrawl-mcp
+  upstream: mendableai/firecrawl-mcp-server
+  url: https://www.npmjs.com/package/firecrawl-mcp
+  ref: 3.22.3
+  license: see-upstream-package
+  relationship: pointer
+
+- artifact: playwright-mcp
+  upstream: microsoft/playwright-mcp
+  url: https://www.npmjs.com/package/@playwright/mcp
+  ref: 0.0.78
+  license: Apache-2.0
+  relationship: pointer
+
+- artifact: duckduckgo-mcp-server
+  upstream: nickclyde/duckduckgo-mcp-server
+  url: https://pypi.org/project/duckduckgo-mcp-server/
+  ref: 0.5.0
+  license: MIT
+  relationship: pointer
+
+- artifact: serena-cli
+  upstream: oraios/serena
+  url: https://github.com/oraios/serena
+  ref: externally-managed-cli
+  license: MIT
+  relationship: pointer
+  note: The MCP templates invoke an already-installed Serena CLI; they do not download or resolve it. Pin Serena in your own CLI installation workflow.
+
 - artifact: accessibility-testing
   upstream: Community-Access/accessibility-agents
   url: https://github.com/Community-Access/accessibility-agents
