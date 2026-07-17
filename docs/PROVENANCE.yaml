@@ -1,0 +1,97 @@
+# Machine-readable provenance ledger.
+#
+# relationship values:
+#   pointer       — this toolkit references/recommends installing the upstream
+#                    bundle directly; nothing is vendored or copied here.
+#   derived       — a shipped file in this repo is adapted from upstream code
+#                    (same underlying logic, not a fresh implementation).
+#   reimplemented — a shipped file in this repo implements the same upstream
+#                    *pattern/idea* via original code, not a code copy.
+#
+# See docs/CREDITS-AND-UPSTREAM.md for pointer bundles (full detail + license
+# notes) and THIRD-PARTY-NOTICES.md for derived/reimplemented shipped
+# artifacts (full detail + MIT license text).
+
+- artifact: compound-engineering
+  upstream: EveryInc/compound-engineering-plugin
+  url: https://github.com/EveryInc/compound-engineering-plugin
+  license: MIT
+  relationship: pointer
+
+- artifact: apple-skills
+  upstream: vabole/apple-skills
+  url: https://github.com/vabole/apple-skills
+  license: MIT
+  relationship: pointer
+
+- artifact: ponytail
+  upstream: DietrichGebert/ponytail
+  url: https://github.com/DietrichGebert/ponytail
+  license: MIT
+  relationship: pointer
+
+- artifact: impeccable
+  upstream: pbakaus/impeccable
+  url: https://github.com/pbakaus/impeccable
+  license: Apache-2.0
+  relationship: pointer
+  note: NOTICE-file obligation applies on redistribution of the upstream bundle itself.
+
+- artifact: swiftui-pro
+  upstream: twostraws/SwiftUI-Agent-Skill
+  url: https://github.com/twostraws/SwiftUI-Agent-Skill
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: claude-mem
+  upstream: thedotmack/claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  license: Apache-2.0
+  relationship: pointer
+
+- artifact: last30days
+  upstream: mvanhorn/last30days-skill
+  url: https://github.com/mvanhorn/last30days-skill
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: security-guidance
+  upstream: anthropics/claude-plugins-official
+  url: https://github.com/anthropics/claude-plugins-official
+  license: see-upstream-repo
+  relationship: pointer
+
+- artifact: config-protection.js
+  upstream: affaan-m/ECC
+  url: https://github.com/affaan-m
+  license: MIT
+  relationship: derived
+  note: Original copyright retained by upstream (Affaan Mustafa). MIT license text reproduced once in THIRD-PARTY-NOTICES.md.
+
+- artifact: anti-sycophancy-hook-pattern
+  upstream: 0xcjl/anti-sycophancy
+  url: https://github.com/0xcjl
+  license: see-upstream-repo
+  relationship: reimplemented
+  note: Fresh implementation of the same structural pattern; idea originates upstream.
+
+- artifact: security-validators-ssrf-guard
+  upstream: qazbnm456/awesome-web-security
+  url: https://github.com/qazbnm456/awesome-web-security
+  license: see-upstream-repo
+  relationship: reimplemented
+  note: Patterns catalog, not a single code source; original code applying documented SSRF-guard techniques. Covers ssrf_guard.py and llm_grade_harden.py.
+
+- artifact: security-validators-path-guard
+  upstream: modelcontextprotocol/servers
+  url: https://github.com/modelcontextprotocol/servers
+  license: MIT
+  relationship: reimplemented
+  note: path_within_allowed.py reimplements the isPathWithinAllowedDirectories pattern from src/filesystem/path-validation.ts. Not vendored; original Python. Upstream is MIT.
+
+- artifact: pii-scan-pattern
+  upstream: ruvnet/ruflo (aidefence component)
+  url: https://github.com/ruvnet/ruflo
+  license: see-upstream-repo
+  relationship: reimplemented
+  note: Same category-structure pattern (multi-class PII/secret scan), implemented independently.

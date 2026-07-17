@@ -1,0 +1,43 @@
+# Codex MCP server config — the same six servers as claude-code.mcp.json,
+# expressed as Codex [mcp_servers.*] TOML entries.
+#
+# Add with either:
+#   codex mcp add context7 --url https://mcp.context7.com/mcp
+#   codex mcp add duckduckgo -- uvx duckduckgo-mcp-server
+#   codex mcp add serena -- serena start-mcp-server
+#   codex mcp add exa --url https://mcp.exa.ai/mcp --header "x-api-key=${EXA_API_KEY}"
+#   codex mcp add firecrawl --env FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp
+#   codex mcp add playwright -- npx @playwright/mcp@latest
+#
+# ...or paste the blocks below directly into ~/.codex/config.toml.
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+
+[mcp_servers.duckduckgo]
+command = "uvx"
+args = ["duckduckgo-mcp-server"]
+
+[mcp_servers.serena]
+command = "serena"
+args = ["start-mcp-server"]
+
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+
+[mcp_servers.exa.headers]
+x-api-key = "${EXA_API_KEY}"
+
+[mcp_servers.firecrawl]
+command = "npx"
+args = ["-y", "firecrawl-mcp"]
+
+[mcp_servers.firecrawl.env]
+FIRECRAWL_API_KEY = "${FIRECRAWL_API_KEY}"
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@latest"]
+
+# playwright note: first run opens an interactive browser session for auth/
+# trust prompts — run it once locally before relying on it headless in CI.

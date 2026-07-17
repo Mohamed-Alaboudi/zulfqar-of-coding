@@ -1,0 +1,16 @@
+.env
+.env.*
+*.pem
+*.p12
+id_rsa*
+.DS_Store
+node_modules/
+__pycache__/
+*.log
+.idea/
+.vscode/
+secrets/
+*.local
+
+# internal build scaffolding — never publish
+docs/plans/
