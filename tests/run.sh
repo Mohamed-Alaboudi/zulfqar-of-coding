@@ -11,8 +11,11 @@ bash "${REPO_ROOT}/tests/install-contract.sh"
 bash "${REPO_ROOT}/tests/installer-integration.sh"
 bash "${REPO_ROOT}/tests/codex-routing.sh"
 bash "${REPO_ROOT}/tests/mcp-pins.sh"
+bash "${REPO_ROOT}/tests/mcp-capabilities.sh"
 bash "${REPO_ROOT}/tests/plugin-manifests.sh"
 bash "${REPO_ROOT}/tests/skill-frontmatter.sh"
+bash "${REPO_ROOT}/tests/skill-budget.sh"
+bash "${REPO_ROOT}/tests/trivy-wrapper.sh"
 bash "${REPO_ROOT}/hooks/pii-scan.sh" --selftest
 bash "${REPO_ROOT}/scripts/scan-secrets.sh" --selftest
 bash "${REPO_ROOT}/scripts/scan-secrets.sh" "${REPO_ROOT}"

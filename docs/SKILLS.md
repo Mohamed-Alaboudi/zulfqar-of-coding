@@ -15,6 +15,10 @@ type `/name`; Codex invokes by name (`$name`) or via `/skills`. Both read the sa
 frontmatter (`name` ≤100 chars, `description` ≤500 chars) and body — that's what makes the shipped
 files portable in the first place.
 
+Run `scripts/check-skill-budget.sh` after adding or expanding skills. It measures the deterministic
+initial catalog payload (`name` + `description`), warns at 6,400 characters, and gates at 8,000 so
+trigger descriptions remain discoverable instead of silently consuming the whole startup budget.
+
 ---
 
 ## Anti-slop / reasoning

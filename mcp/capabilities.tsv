@@ -1,0 +1,9 @@
+# Public-safe MCP authorization manifest. Credential entries are environment-variable names only.
+name	transport	credentials	data_classes	read	write	local_exec	browser	human_confirmation	trust_authorization	review_signal
+context7	http	-	public-library-documentation	yes	no	no	no	none	Use only for public documentation; verify critical version-specific guidance against the vendor.	2026-07-17;endpoint-current
+openaiDeveloperDocs	http	-	public-product-documentation	yes	no	no	no	none	Use only for public OpenAI documentation; authoritative for current product behavior.	2026-07-17;endpoint-current
+duckduckgo	stdio	-	public-web-search-results	yes	no	yes	no	none	Local package process sends search queries to DuckDuckGo; do not include sensitive terms.	2026-07-17;duckduckgo-mcp-server==0.5.0
+serena	stdio	-	local-workspace-source-code	yes	yes	yes	no	before-write	Authorize only for the intended workspace; local source may be sensitive.	2026-07-17;externally-managed-cli
+exa	http	EXA_API_KEY	public-web-search-results	yes	no	no	no	none	API key authorizes Exa search; do not include sensitive terms in queries.	2026-07-17;endpoint-current
+firecrawl	stdio	FIRECRAWL_API_KEY	public-web-pages-and-extraction-results	yes	no	yes	no	none	API key authorizes crawling; review target-site terms and avoid protected data.	2026-07-17;firecrawl-mcp@3.22.3
+playwright	stdio	-	browser-session-content-and-web-forms	yes	yes	yes	yes	before-browser-auth-or-write	Browser actions can disclose session data or change remote state; authorize each login or mutation.	2026-07-17;@playwright/mcp@0.0.78

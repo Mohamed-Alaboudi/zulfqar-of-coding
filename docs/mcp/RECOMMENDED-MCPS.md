@@ -5,6 +5,23 @@ keep. Config for both formats lives next to this doc:
 
 - Claude Code: [`mcp/claude-code.mcp.json`](../../mcp/claude-code.mcp.json)
 - Codex: [`mcp/codex.config.toml`](../../mcp/codex.config.toml)
+- Capability and authorization manifest:
+  [`mcp/capabilities.tsv`](../../mcp/capabilities.tsv)
+
+## Capability and authorization manifest
+
+`mcp/capabilities.tsv` is the public-safe, machine-readable authority for the
+recommended servers' transport, named credential requirements, reachable data
+classes, capability flags, confirmation policy, trust boundary, and review
+signal. It intentionally records credential *names* only; it never stores
+credential values. Validate it against both configuration formats with:
+
+```shell
+scripts/validate-mcp-capabilities.sh
+```
+
+The tab-separated format keeps validation dependency-free in Bash 5.2 while
+making each capability declaration straightforward to audit in a public clone.
 
 | MCP | Tier | Key needed? | Install | Note |
 |---|---|---|---|---|

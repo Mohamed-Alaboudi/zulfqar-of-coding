@@ -69,6 +69,14 @@
   license: Apache-2.0
   relationship: pointer
 
+- artifact: trivy-cli
+  upstream: aquasecurity/trivy
+  url: https://github.com/aquasecurity/trivy
+  ref: v0.72.0
+  license: Apache-2.0
+  relationship: pointer
+  note: The optional wrapper invokes the pinned upstream container image; no Trivy code or vulnerability database is vendored.
+
 - artifact: compound-engineering
   upstream: EveryInc/compound-engineering-plugin
   url: https://github.com/EveryInc/compound-engineering-plugin

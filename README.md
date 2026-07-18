@@ -21,6 +21,7 @@ That one decision is most of what "superpowers ~24 agents at once" means in prac
 - **Guardrail + anti-sycophancy hook patterns** — pre-commit-style hooks that block secret commits and force-pushes to protected branches, plus a prompt-submit hook pattern that keeps agent feedback honest instead of reflexively agreeable.
 - **Public-safe environment map** — audited manifests for repo-scoped packs, adopted plugins, MCP templates, CLI tooling, status-line configuration, and backup boundaries without publishing private runtime state.
 - **Fast Codex routing** — public-safe Luna/Terra/Sol agent roles, depth-one delegation, profile examples, and an explicit full-access warning. See [`docs/CODEX-FAST-SETUP.md`](docs/CODEX-FAST-SETUP.md).
+- **Lean capability governance** — a Codex skill-discovery budget gate, a seven-server MCP authorization manifest, and an optional pinned Trivy repository scan.
 
 ## 60-second quickstart
 
@@ -84,9 +85,12 @@ packs/                   design/apps/growth/voice pack contract
 plugins/                 adopted plugin inventory (no caches vendored)
 statusline/              placeholder-only status-line configuration
 configs/codex/           safe config, agent-role, and opt-in profile examples
+mcp/capabilities.tsv     credential-name-only MCP access and confirmation ledger
 backups/                 policy only; backup payloads stay private
 scripts/
   install.sh              installer (--agent, --dry-run, --skills-only, ...)
+  check-skill-budget.sh   guards Codex's initial skill-discovery context budget
+  run-trivy.sh            optional pinned read-only repository assurance scan
   scan-secrets.sh          leak check, run before every push
   verify-install.sh        confirms an install landed correctly
 ```
