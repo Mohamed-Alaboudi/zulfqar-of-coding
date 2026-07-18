@@ -2,6 +2,7 @@
 bookend
 brainstorming
 common-ground
+delegating-work
 doubt-driven-development
 exa
 grill-with-docs

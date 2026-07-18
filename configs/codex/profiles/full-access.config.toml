@@ -1,0 +1,4 @@
+# DANGEROUS: never install or select this profile by default.
+# Use only inside a trusted, externally isolated, disposable environment with no secrets.
+approval_policy = "never"
+sandbox_mode = "danger-full-access"

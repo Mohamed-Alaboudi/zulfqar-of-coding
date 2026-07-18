@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delegate Work"
+  short_description: "Route bounded work across Luna, Terra, and Sol"
+  default_prompt: "Use $delegating-work to route this task into no more than three bounded lanes, then integrate and verify the result."

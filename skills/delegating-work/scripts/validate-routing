@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+config=""
+agents_dir=""
+skill_dir=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --config) config="$2"; shift 2 ;;
+    --agents-dir) agents_dir="$2"; shift 2 ;;
+    --skill-dir) skill_dir="$2"; shift 2 ;;
+    *) printf 'unknown argument: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+
+for required in "$config" "$agents_dir" "$skill_dir"; do
+  [ -n "$required" ] && [ -e "$required" ] || { printf 'missing required path: %s\n' "$required" >&2; exit 2; }
+done
+
+failures=0
+require_line() {
+  file="$1"; pattern="$2"; label="$3"
+  if ! grep -Eq "$pattern" "$file"; then
+    printf 'FAIL: %s\n' "$label" >&2
+    failures=$((failures + 1))
+  fi
+}
+require_agent() {
+  filename="$1"; model="$2"; effort="$3"; sandbox="${4:-}"; file="${agents_dir}/${filename}.toml"
+  if [ ! -f "$file" ]; then printf 'FAIL: missing agent %s\n' "$filename" >&2; failures=$((failures + 1)); return; fi
+  require_line "$file" "^model = \"${model}\"$" "$filename model pin"
+  require_line "$file" "^model_reasoning_effort = \"${effort}\"$" "$filename effort pin"
+  if [ -n "$sandbox" ]; then require_line "$file" "^sandbox_mode = \"${sandbox}\"$" "$filename sandbox"; fi
+}
+
+require_line "$config" '^model = "gpt-5\.6-terra"$' 'Terra root model'
+require_line "$config" '^model_reasoning_effort = "medium"$' 'root medium effort'
+require_line "$config" '^max_depth = 1$' 'depth-one delegation'
+require_line "$config" '^multi_agent = true$' 'stable multi-agent enabled'
+require_agent luna-reader gpt-5.6-luna low read-only
+require_agent finder gpt-5.6-terra low read-only
+require_agent explorer gpt-5.6-terra medium read-only
+require_agent worker-light gpt-5.6-terra medium
+require_agent sol-advisor gpt-5.6-sol high read-only
+require_agent worker-deep gpt-5.6-sol high
+require_agent verifier gpt-5.6-sol high read-only
+require_line "$skill_dir/SKILL.md" 'Three lanes maximum per wave' 'three-lane doctrine'
+require_line "$skill_dir/SKILL.md" 'references/routing\.md' 'routing reference'
+require_line "$skill_dir/SKILL.md" 'references/contracts\.md' 'contracts reference'
+
+if [ "$failures" -gt 0 ]; then printf 'routing validation failed: %s issue(s)\n' "$failures" >&2; exit 1; fi
+printf 'routing validation passed: Terra root + Luna/Terra/Sol roles + depth-one three-lane doctrine\n'

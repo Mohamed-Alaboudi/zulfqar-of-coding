@@ -1,18 +1,21 @@
-# Codex MCP server config — the same six servers as claude-code.mcp.json,
+# Codex MCP server config — the same seven servers as claude-code.mcp.json,
 # expressed as Codex [mcp_servers.*] TOML entries.
 #
 # Add with either:
 #   codex mcp add context7 --url https://mcp.context7.com/mcp
+#   codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
 #   codex mcp add duckduckgo -- uvx duckduckgo-mcp-server==0.5.0
 #   codex mcp add serena -- serena start-mcp-server
-#   codex mcp add exa --url https://mcp.exa.ai/mcp --header "x-api-key=${EXA_API_KEY}"
-#   codex mcp add firecrawl --env FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.22.3
 #   codex mcp add playwright -- npx @playwright/mcp@0.0.78
 #
-# ...or paste the blocks below directly into ~/.codex/config.toml.
+# Paste the keyed Exa and Firecrawl blocks below into ~/.codex/config.toml so
+# Codex forwards named environment variables without storing their values.
 
 [mcp_servers.context7]
 url = "https://mcp.context7.com/mcp"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
 
 [mcp_servers.duckduckgo]
 command = "uvx"
@@ -25,15 +28,14 @@ args = ["start-mcp-server"]
 [mcp_servers.exa]
 url = "https://mcp.exa.ai/mcp"
 
-[mcp_servers.exa.headers]
-x-api-key = "${EXA_API_KEY}"
+[mcp_servers.exa.env_http_headers]
+x-api-key = "EXA_API_KEY"
 
 [mcp_servers.firecrawl]
 command = "npx"
 args = ["-y", "firecrawl-mcp@3.22.3"]
 
-[mcp_servers.firecrawl.env]
-FIRECRAWL_API_KEY = "${FIRECRAWL_API_KEY}"
+env_vars = ["FIRECRAWL_API_KEY"]
 
 [mcp_servers.playwright]
 command = "npx"

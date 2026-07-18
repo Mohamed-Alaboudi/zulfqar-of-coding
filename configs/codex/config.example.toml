@@ -1,0 +1,15 @@
+# Merge these public-safe defaults into ~/.codex/config.toml.
+# Do not replace an existing config wholesale.
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[agents]
+max_threads = 4
+max_depth = 1
+
+[features]
+multi_agent = true
+# Experimental and intentionally disabled in this portable default:
+# multi_agent_v2 = true

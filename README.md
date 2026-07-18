@@ -20,6 +20,7 @@ That one decision is most of what "superpowers ~24 agents at once" means in prac
 - **The build-lean ladder** — the rung-by-rung discipline for not writing code that didn't need to exist: see `AGENTS.md` Operating principles.
 - **Guardrail + anti-sycophancy hook patterns** — pre-commit-style hooks that block secret commits and force-pushes to protected branches, plus a prompt-submit hook pattern that keeps agent feedback honest instead of reflexively agreeable.
 - **Public-safe environment map** — audited manifests for repo-scoped packs, adopted plugins, MCP templates, CLI tooling, status-line configuration, and backup boundaries without publishing private runtime state.
+- **Fast Codex routing** — public-safe Luna/Terra/Sol agent roles, depth-one delegation, profile examples, and an explicit full-access warning. See [`docs/CODEX-FAST-SETUP.md`](docs/CODEX-FAST-SETUP.md).
 
 ## 60-second quickstart
 
@@ -36,6 +37,10 @@ Full flags and per-agent detail: [`SETUP.md`](SETUP.md).
 
 Optional service accounts, subscriptions, and credential setup: [`docs/ACCOUNT-SETUP.md`](docs/ACCOUNT-SETUP.md).
 
+Codex model routing, Fast mode, named agents, and safe/full-access profiles: [`docs/CODEX-FAST-SETUP.md`](docs/CODEX-FAST-SETUP.md).
+
+Permission-bypass flags and their isolation requirements: [`docs/DANGEROUS-PERMISSIONS.md`](docs/DANGEROUS-PERMISSIONS.md).
+
 ## Native plugin packaging
 
 The repository root is an installable plugin source for both Codex and Claude Code. It ships `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`, and both manifests reference the same canonical `skills/` tree—there is no duplicated generated bundle to drift.
@@ -47,7 +52,7 @@ For local Claude Code evaluation, clone the repository and launch `claude --plug
 | Agent | Reads which instruction file | Skills? | MCP? | Subagent tiering? |
 |---|---|---|---|---|
 | Claude Code | `CLAUDE.md` | Yes (`~/.claude/skills`) | Yes | Yes — `model:` param, `/effort`, headless `claude -p --effort` |
-| Codex | `AGENTS.md` | Yes (`SKILL.md`, experimental flag) | Yes | Yes — `model_reasoning_effort` in `config.toml`, per-agent TOML |
+| Codex | `AGENTS.md` | Yes (`SKILL.md`) | Yes | Yes — named `.codex/agents/*.toml` roles and per-agent `model_reasoning_effort` |
 | Cursor | `AGENTS.md` (+ `.cursor/rules`) | Partial | Yes | No reliable subagent tiering |
 | Gemini CLI | `GEMINI.md` (+ `AGENTS.md` partial) | Emerging | Yes | Limited |
 | Aider | `AGENTS.md` (`CONVENTIONS.md` legacy) | No | No | No |
@@ -66,6 +71,8 @@ LICENSE                  MIT + third-party notice pointer
 templates/AGENTS.md      generic copy install.sh drops into your project
 docs/
   PER-AGENT.md            per-agent capability matrix, sourced
+  CODEX-FAST-SETUP.md      Luna/Terra/Sol routing, profiles, permission safety
+  DANGEROUS-PERMISSIONS.md opt-in Codex/Claude bypass flags and isolation rules
   AGENTS-MD-GUIDE.md       how to write your own AGENTS.md
   SKILLS.md                skill index and routing
   CREDITS-AND-UPSTREAM.md  where ideas and code came from
@@ -76,6 +83,7 @@ skills/                  portable SKILL.md packages
 packs/                   design/apps/growth/voice pack contract
 plugins/                 adopted plugin inventory (no caches vendored)
 statusline/              placeholder-only status-line configuration
+configs/codex/           safe config, agent-role, and opt-in profile examples
 backups/                 policy only; backup payloads stay private
 scripts/
   install.sh              installer (--agent, --dry-run, --skills-only, ...)

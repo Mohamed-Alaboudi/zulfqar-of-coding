@@ -112,6 +112,13 @@
   license: see-upstream-repo
   relationship: pointer
 
+- artifact: deep-research-plugin
+  upstream: Mohamed-Alaboudi/deep-research
+  url: https://github.com/Mohamed-Alaboudi/deep-research
+  ref: codex-native-dr
+  license: MIT
+  relationship: pointer
+
 - artifact: security-guidance
   upstream: anthropics/claude-plugins-official
   url: https://github.com/anthropics/claude-plugins-official

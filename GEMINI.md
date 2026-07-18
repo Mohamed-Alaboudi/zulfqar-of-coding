@@ -62,7 +62,7 @@ A change is done when `scripts/scan-secrets.sh` passes AND `scripts/verify-insta
 
 ## Model tiering
 
-Asymmetric tiering: don't pay ceiling price for mechanical fan-out, don't cheap out below competent extraction. For deep-research-style fan-out specifically: scrapers and per-source extraction run on a **competent mid tier** (good instruction-following + long-context extraction — e.g. Claude Sonnet, or Codex `model_reasoning_effort=low|medium`), never the bottom floor — bottom-tier extraction collapses quality and then poisons the verification step that reads it. The **top tier** (Claude Opus, or Codex `high`/`xhigh`) is reserved for adversarial verification and final synthesis, where judgment compounds and mistakes are expensive to catch later. This is the config a real research pipeline runs, not a hypothetical. Per-agent mapping: `docs/PER-AGENT.md`.
+Route by work shape: Luna/low for deterministic extraction, Terra/low for exact search, Terra/medium for exploration and spec-closed implementation, and Sol/high for consequential advice, judgment-heavy slices, and final falsification. Keep recursion at depth one and use no more than three useful lanes per wave. Deep research may require Terra/medium collectors when source interpretation is non-trivial. Per-agent templates: `docs/CODEX-FAST-SETUP.md` and `configs/codex/agents/`.
 
 ## Project Learnings
 

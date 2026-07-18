@@ -1,6 +1,6 @@
 # Recommended MCP servers
 
-Six MCP servers worth wiring up on day one, ranked by how often they earn their
+Seven MCP servers worth wiring up on day one, ranked by how often they earn their
 keep. Config for both formats lives next to this doc:
 
 - Claude Code: [`mcp/claude-code.mcp.json`](../../mcp/claude-code.mcp.json)
@@ -9,6 +9,7 @@ keep. Config for both formats lives next to this doc:
 | MCP | Tier | Key needed? | Install | Note |
 |---|---|---|---|---|
 | **context7** | Core | No | `http` — `https://mcp.context7.com/mcp` | Live, version-pinned library docs. Pull this before trusting your own training data on any API surface — SDKs move faster than model knowledge cutoffs. |
+| **openaiDeveloperDocs** | Core | No | `http` — `https://developers.openai.com/mcp` | Official OpenAI and Codex documentation. Prefer it over memory for current OpenAI product behavior. |
 | **duckduckgo** | Core | No | `stdio` — `uvx duckduckgo-mcp-server==0.5.0` | Zero-config web search fallback. No account, no rate-limit surprises. Good default when you don't want to manage a search API key at all. |
 | **serena** | Core | No | `stdio` — `serena start-mcp-server` | Symbol-level code navigation across large repos. Serena is an external CLI prerequisite, not downloaded by this template; install and version-manage it separately. |
 | **exa** | Power | **Yes** — `EXA_API_KEY` | `http` — `https://mcp.exa.ai/mcp`, header `x-api-key: ${EXA_API_KEY}` | Neural/semantic web search, meaningfully better than keyword search for "find me the thing that matches this concept" queries. Paid tier past a free quota. |
@@ -36,9 +37,24 @@ Two servers need a key you provide — nothing here ships with one baked in.
 Set both as real environment variables (shell profile, `.env` loaded by your
 secrets tool, or your agent's own env-injection mechanism) — never hardcode a
 key into `claude-code.mcp.json`, `codex.config.toml`, or any file that gets
-committed. Both shipped configs reference them only as `${EXA_API_KEY}` /
-`${FIRECRAWL_API_KEY}` placeholders; your MCP client resolves those from the
-environment at launch.
+committed. Claude's JSON uses `${EXA_API_KEY}` / `${FIRECRAWL_API_KEY}`
+placeholders. Codex uses `env_http_headers` and `env_vars` to forward those
+named environment variables without storing their values.
+
+## Review, disable, and remove
+
+Every MCP expands the tools and data reachable by the agent. Review the command, package pin, URL, environment variables, and data scope before enabling one. Prefer the smallest server set needed for the current project.
+
+For Codex:
+
+```shell
+codex mcp list
+codex mcp get <name>
+codex mcp remove <name>
+codex mcp logout <name>   # when the server used OAuth
+```
+
+For hand-edited Claude JSON, remove the named `mcpServers` entry only after saving a recoverable local copy. Rotate or revoke credentials separately; deleting a config entry does not invalidate a token at its provider.
 
 ## Deliberately excluded
 
@@ -52,11 +68,14 @@ A few MCP categories are left out of this list on purpose:
   to paste in credentials that don't belong in a public config. If you need
   this class of tool, wire your own project's MCP directly rather than
   adapting a stranger's.
+- **Optional local accelerators** such as Headroom or codegraph. They can be
+  useful after measurement, but they add local executables and versioning
+  responsibility. Install them separately and pin them in your own tool ledger.
 - **Local custom binaries** (bespoke CLIs wrapped as MCP servers that only
   exist on one machine). Not installable by anyone else, so listing them here
   would be a dead end rather than a recommendation. If a workflow like this
   earns its keep repeatedly, the right move is to publish the underlying CLI
   as its own open-source tool — then it belongs in this list.
 
-The six above are the ones that install cleanly for anyone, on any machine,
+The seven above are the ones that install cleanly for anyone, on any machine,
 with nothing but a `git clone` and (for two of them) a free-tier signup.

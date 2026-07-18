@@ -26,4 +26,12 @@ for manifest in .codex-plugin/plugin.json .claude-plugin/plugin.json; do
   }
 done
 
+codex_version="$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' "${REPO_ROOT}/.codex-plugin/plugin.json")"
+claude_version="$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' "${REPO_ROOT}/.claude-plugin/plugin.json")"
+
+[ -n "${codex_version}" ] && [ "${codex_version}" = "${claude_version}" ] || {
+  printf 'FAIL: Codex and Claude plugin versions differ or are missing\n' >&2
+  exit 1
+}
+
 printf 'plugin manifests: PASS\n'

@@ -1,0 +1,4 @@
+# Optional maximum-depth read/decision profile. Pair with instructions that prohibit edits.
+# Model availability is account/catalog dependent.
+model = "gpt-5.6-sol"
+model_reasoning_effort = "ultra"

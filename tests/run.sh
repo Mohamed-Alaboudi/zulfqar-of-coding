@@ -9,6 +9,7 @@ done < <(find "${REPO_ROOT}" -path "${REPO_ROOT}/.git" -prune -o -type f -name '
 
 bash "${REPO_ROOT}/tests/install-contract.sh"
 bash "${REPO_ROOT}/tests/installer-integration.sh"
+bash "${REPO_ROOT}/tests/codex-routing.sh"
 bash "${REPO_ROOT}/tests/mcp-pins.sh"
 bash "${REPO_ROOT}/tests/plugin-manifests.sh"
 bash "${REPO_ROOT}/tests/skill-frontmatter.sh"

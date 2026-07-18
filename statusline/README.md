@@ -5,3 +5,5 @@ The local agent setup uses a status-line command, but its executable path and ru
 Use [`claude-settings.example.json`](claude-settings.example.json) as a merge fragment. Replace `<STATUSLINE_COMMAND>` locally with a trusted executable. Do not commit the resulting settings file if it contains home-directory paths, account data, tokens, session identifiers, or provider configuration.
 
 A status-line program should consume the agent’s documented JSON input from standard input, emit one concise line, avoid network access, avoid reading secrets, and degrade to empty output on malformed input.
+
+This example is Claude Code-shaped. Codex exposes status and agent activity through its own TUI/app surfaces; this repository does not claim a portable Codex status-line command or publish the machine-specific local setting.

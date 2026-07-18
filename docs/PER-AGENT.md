@@ -79,29 +79,27 @@ specifically so Claude Code picks it up with zero extra config.
 ## Codex
 
 **Install path.** Skills live in `~/.codex/skills/<name>/SKILL.md` (user-level)
-or `<repo>/.agents/skills/<name>/SKILL.md` (repo-level). As of this writing
-skills are gated behind an experimental `"skills"` feature flag in
-`config.toml` — confirm it's enabled before assuming skill auto-discovery
-works.
+or `<repo>/.agents/skills/<name>/SKILL.md` (repo-level). Current Codex releases
+discover skills without the old experimental `skills` flag.
 
 **How skills are invoked.** `$skill-name` inline, or the `/skills` command to
 list and pick interactively. **Custom prompts are deprecated** — OpenAI's
 guidance is to migrate any custom-prompt workflow to a skill; don't build new
 automation on custom prompts.
 
-**Model / effort tiering.** Configured in `config.toml`, not as a runtime
-flag:
+**Model / effort tiering.** Configured in `config.toml`, named profile files,
+or custom agent TOMLs:
 
-- `model_reasoning_effort = "minimal" | "low" | "medium" | "high" | "xhigh"` —
+- `model_reasoning_effort = "minimal" | "low" | "medium" | "high" | "xhigh" | "ultra"` —
   the default reasoning depth for the session.
-- `plan_mode_reasoning_effort` — a **separate, typically higher** setting used
-  specifically while Codex is in planning mode, distinct from execution-mode
-  effort. Set this deliberately; it does not inherit from
-  `model_reasoning_effort`.
-- **Per-agent TOML `reasoning_effort`** — when orchestrating multiple Codex
-  agents, each can carry its own `reasoning_effort` in its agent config block,
-  giving you the same "cheap fan-out, expensive verifier" shape Claude gets
-  from per-subagent `model:` pins.
+- **Per-agent TOML `model_reasoning_effort`** — standalone custom agents under
+  `~/.codex/agents/` or project `.codex/agents/` can pin their own model,
+  effort, and sandbox. See [`CODEX-FAST-SETUP.md`](CODEX-FAST-SETUP.md).
+- **Named profiles** — `codex --profile fast` overlays
+  `~/.codex/fast.config.toml` on the base config. Codex 0.134.0 and later use
+  separate profile files, not legacy `[profiles.name]` tables.
+- **Fast mode** — `/fast on` increases supported-model speed but consumes
+  credits faster; it is not a cheaper-model substitute.
 
 **MCP support.** Full, and bidirectional:
 
@@ -129,7 +127,7 @@ needed, no duplicate file required. This is Codex's half of the reason
 | Transfers as-is | Needs adaptation |
 |---|---|
 | `AGENTS.md` (native, no copy needed) | Skill invocation syntax (`$name`/`/skills` vs. `/name`) |
-| `SKILL.md` bodies and reference files (identical spec) | Tiering vocabulary — translate Claude's `model:`/`/effort` to `model_reasoning_effort` / `plan_mode_reasoning_effort` / per-agent `reasoning_effort` |
+| `SKILL.md` bodies and reference files (identical spec) | Tiering vocabulary — translate Claude's `model:`/`/effort` to Codex profile and per-agent `model_reasoning_effort` |
 | MCP server packages | Hook syntax differs from Claude Code's `settings.json` shape — same lifecycle idea, different config surface |
 
 ---
@@ -198,24 +196,18 @@ bonus if it happens to work.
 
 ## Deep-research tiering summary
 
-The toolkit's deep-research pipeline (fan-out scrapers → adversarial
-verification → synthesis) uses **asymmetric tiering**: don't pay ceiling
-price for mechanical fan-out, don't cheap out below competent extraction. The
-scraper/extraction stage needs a **competent mid tier** — good
-instruction-following and reliable long-context extraction — because a
-bottom-tier model here silently drops or misreads source material and
-poisons everything downstream, including verification. The **top tier** is
-reserved for adversarial verification and final synthesis, where judgment
-actually compounds. Per agent, that maps to:
+The toolkit uses **work-shaped asymmetric tiering**. Deterministic inventories
+and exact search use the lightest capable readers; source interpretation and
+multi-file understanding use a competent middle tier; consequential judgment
+and final falsification use the strongest tier. Per agent, that maps to:
 
 - **Claude Code:** scrapers/fan-out on `sonnet`; the verifier step escalates
   to `opus`. Pin both explicitly with `model:` on each `agent()` call in the
   orchestration script — don't rely on defaults.
-- **Codex:** scrapers/fan-out at `model_reasoning_effort = "low"` or
-  `"medium"`; the verifier profile runs at `"high"` or `"xhigh"`. Set this
-  per-agent via each agent's `reasoning_effort` in its TOML block, not
-  globally — a global high setting defeats the point of tiering the fan-out
-  cheaply.
+- **Codex:** Luna/low for deterministic extraction, Terra/low for exact search,
+  Terra/medium for source interpretation and code paths, and Sol/high for
+  consequential advice or verification. Set `model_reasoning_effort` in each
+  custom agent TOML rather than making the global session high.
 - **Everything else in the Cursor/Windsurf/Zed/Aider/Copilot/Jules group:**
   no scriptable per-task tier exists, so approximate this by hand — run the
   fan-out/scraping pass on whatever model the tool defaults to (usually
