@@ -4,7 +4,7 @@ Status: approved direction, awaiting implementation-plan approval.
 
 ## Objective
 
-Make Zulfqar a trustworthy, natively distributable Codex/Claude coding package. “Best” remains an evidence target, not a marketing claim: the package must first prove its documented behavior, installation result, dependency reproducibility, and cross-agent packaging.
+Make Zulfiqar a trustworthy, natively distributable Codex/Claude coding package. “Best” remains an evidence target, not a marketing claim: the package must first prove its documented behavior, installation result, dependency reproducibility, and cross-agent packaging.
 
 ## Evidence
 
@@ -29,7 +29,7 @@ Create one machine-readable expected-skill manifest and make the installer, veri
 
 ### 2. Artifact-specific verification
 
-Update `verify-install.sh` to prove that every expected Zulfqar skill landed in the selected target. A directory containing unrelated skills must fail. Preserve current collision safety: existing same-named skills are skipped unless the user explicitly forces replacement.
+Update `verify-install.sh` to prove that every expected Zulfiqar skill landed in the selected target. A directory containing unrelated skills must fail. Preserve current collision safety: existing same-named skills are skipped unless the user explicitly forces replacement.
 
 Run installer integration cases under an isolated temporary home directory so tests cannot touch real agent configuration. Cover dry run, copy mode, symlink mode, collision preservation, forced replacement, and MCP non-clobbering.
 

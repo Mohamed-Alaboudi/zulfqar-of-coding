@@ -1,0 +1,10 @@
+skill: handoff
+should_fire:
+  - write a handoff for the next session
+  - im running low on context, write the resume prompt
+  - hand this off so a fresh session can pick it up
+must_not_fire:
+  - write an onboarding doc for my intern
+  - summarize what we did
+  - commit this
+  - write a plan

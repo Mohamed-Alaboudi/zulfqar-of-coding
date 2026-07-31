@@ -1,4 +1,4 @@
-# Zulfqar of Coding
+# Zulfiqar
 
 A public, installable, cross-agent toolkit: operating rules, skills, and hook patterns that work whether you're driving Codex, Claude Code, Cursor, Gemini CLI, Aider, or basically any coding agent that reads project instructions.
 
@@ -26,8 +26,8 @@ That one decision is most of what "superpowers ~24 agents at once" means in prac
 ## 60-second quickstart
 
 ```bash
-git clone <this-repo-url>
-cd zulfqar-of-coding
+git clone https://github.com/Mohamed-Alaboudi/zulfiqar.git
+cd zulfiqar
 ./install.sh --dry-run          # see what would happen, changes nothing
 ./install.sh --agent=claude     # install for Claude Code
 # or
@@ -44,9 +44,9 @@ Permission-bypass flags and their isolation requirements: [`docs/DANGEROUS-PERMI
 
 ## Native plugin packaging
 
-The repository root is an installable plugin source for both Codex and Claude Code. It ships `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`, and both manifests reference the same canonical `skills/` tree—there is no duplicated generated bundle to drift.
+The repository root is an installable plugin source for both Codex and Claude Code. It ships `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`, and both manifests reference the same canonical `skills/` tree—there is no duplicated generated bundle to drift. Additional reviewed workflows live under `optional-skills/` and remain manual opt-ins so they do not consume the default discovery budget.
 
-For local Claude Code evaluation, clone the repository and launch `claude --plugin-dir /path/to/zulfqar-of-coding`. For Codex, add or install the repository through the current Codex plugin interface. Marketplace publication is intentionally not claimed; use the source checkout until a versioned marketplace entry is released.
+For local Claude Code evaluation, clone the repository and launch `claude --plugin-dir /path/to/zulfiqar`. For Codex, add or install the repository through the current Codex plugin interface. Marketplace publication is intentionally not claimed; use the source checkout until a versioned marketplace entry is released.
 
 ## Per-agent support matrix
 
@@ -71,6 +71,8 @@ SETUP.md                 full install walkthrough
 LICENSE                  MIT + third-party notice pointer
 templates/AGENTS.md      generic copy install.sh drops into your project
 docs/
+  PROGRESS.md             append-only project history for cold re-entry
+  decisions/              durable agent decision records
   PER-AGENT.md            per-agent capability matrix, sourced
   CODEX-FAST-SETUP.md      Luna/Terra/Sol routing, profiles, permission safety
   DANGEROUS-PERMISSIONS.md opt-in Codex/Claude bypass flags and isolation rules
@@ -81,6 +83,8 @@ docs/
   clis/CLIS.md              CLI inventory, including Google Workspace CLI
   skills/DEEP-RESEARCH.md  the deep-research method in full
 skills/                  portable SKILL.md packages
+optional-skills/         reviewed first-party workflows for manual opt-in
+catalog/skills.tsv       all observed skills, collisions, pointers, and exclusions
 packs/                   design/apps/growth/voice pack contract
 plugins/                 adopted plugin inventory (no caches vendored)
 statusline/              placeholder-only status-line configuration
@@ -90,6 +94,7 @@ backups/                 policy only; backup payloads stay private
 scripts/
   install.sh              installer (--agent, --dry-run, --skills-only, ...)
   check-skill-budget.sh   guards Codex's initial skill-discovery context budget
+  validate-skill-catalog.sh validates body ownership, hashes, and provenance
   run-trivy.sh            optional pinned read-only repository assurance scan
   scan-secrets.sh          leak check, run before every push
   verify-install.sh        confirms an install landed correctly

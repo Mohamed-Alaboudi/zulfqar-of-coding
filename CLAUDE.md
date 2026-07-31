@@ -2,7 +2,7 @@
 
 # AGENTS.md
 
-Portable agent operating rules + toolkit — the Zulfqar of Coding doctrine.
+Portable agent operating rules + toolkit — the Zulfiqar doctrine.
 
 ## Operating principles
 

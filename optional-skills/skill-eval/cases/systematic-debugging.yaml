@@ -1,0 +1,11 @@
+skill: systematic-debugging
+should_fire:
+  - im getting a 500 on this endpoint
+  - this test is failing and i dont know why
+  - heres the stack trace whats wrong
+  - it worked yesterday and now it doesnt
+must_not_fire:
+  - make this faster
+  - review this code
+  - what does this function do
+  - add a feature

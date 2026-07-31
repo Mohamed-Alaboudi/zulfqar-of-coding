@@ -1,0 +1,7 @@
+{
+  "name": "Zulfiqar verification",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode"
+}

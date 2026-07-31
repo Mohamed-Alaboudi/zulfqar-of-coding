@@ -10,7 +10,7 @@
 # Deliberately NARROW - false negatives are acceptable, false positives are not.
 # Fail-open: any parse error -> allow.
 #
-# Portable pattern from the Zulfqar of Coding toolkit. Reimplement anywhere an
+# Portable pattern from the Zulfiqar toolkit. Reimplement anywhere an
 # agent runs shell commands (see git-guardrail.README.md).
 set -euo pipefail
 

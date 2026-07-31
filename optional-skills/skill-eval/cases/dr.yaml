@@ -1,0 +1,11 @@
+skill: dr
+should_fire:
+  - do deep research on this
+  - i want a decision-grade cited report
+  - research this properly with sources
+  - verify this across multiple sources
+must_not_fire:
+  - whats the latest version of node
+  - google this for me
+  - search my codebase for this
+  - whats everyone saying on reddit

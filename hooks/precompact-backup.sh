@@ -4,7 +4,7 @@
 # manual) so nothing is lost if compaction eats context a handoff missed.
 # Keeps the newest 30 backups. Fail-open everywhere.
 #
-# Portable pattern from the Zulfqar of Coding toolkit. The backup dir defaults
+# Portable pattern from the Zulfiqar toolkit. The backup dir defaults
 # to $HOME/.claude/transcript-backups; override CC_BACKUP_DIR to relocate it.
 # See precompact-backup.README.md for reimplementation notes.
 set -euo pipefail

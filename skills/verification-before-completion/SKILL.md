@@ -1,139 +1,51 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always. This is the pre-claim evidence gate (before asserting done/fixed/passing) — narrower than a full end-to-end run-the-app verification pass, and narrower than delegating the check to a separate verifier agent.
+description: "Use before claiming work is complete, fixed, passing, deployed, or pushed. Run fresh checks that directly prove the claim and read back changed state."
 ---
 
 # Verification Before Completion
 
-## Overview
+Match every outward claim to current evidence.
 
-Claiming work is complete without verification is dishonesty, not efficiency.
+## Claim-to-proof gate
 
-**Core principle:** Evidence before claims, always.
+Before committing, pushing, handing off, or saying a result is complete:
 
-**Violating the letter of this rule is violating the spirit of this rule.**
+1. List the claims you are about to make.
+2. Name the command or read-back that would disprove each claim.
+3. Run those checks against the final state, not an earlier revision.
+4. Read the exit code and relevant output; do not infer success from silence.
+5. Confirm changed external state independently:
+   - Git: compare local and remote object IDs;
+   - deployment: inspect the deployed version and status;
+   - data mutation: query the affected record;
+   - generated artifact: open or render it.
+6. Report exactly what the evidence supports, including warnings and checks
+   that were not available.
 
-## The Iron Law
+## Evidence quality
 
-```
-NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
-```
+Use the narrowest proof that covers the claim:
 
-If you haven't run the verification command in this message, you cannot claim it passes.
+| Claim | Required evidence |
+|---|---|
+| bug fixed | original reproduction now passes plus relevant regressions |
+| tests pass | fresh complete test command with zero failures |
+| build works | build command exit status, not lint output |
+| install works | isolated install followed by file and behavior checks |
+| push landed | remote reference equals the intended commit |
+| review addressed | every comment mapped to a verified disposition |
 
-## The Gate Function
+Agent reports, code inspection, and confidence are inputs to verification, not
+verification themselves.
 
-```
-BEFORE claiming any status or expressing satisfaction:
+If a final edit occurs after a check, rerun every gate that the edit could
+affect. If a check cannot run, state that limitation instead of upgrading an
+assumption into a result.
 
-1. IDENTIFY: What command proves this claim?
-2. RUN: Execute the FULL command (fresh, complete)
-3. READ: Full output, check exit code, count failures
-4. VERIFY: Does output confirm the claim?
-   - If NO: State actual status with evidence
-   - If YES: State claim WITH evidence
-5. ONLY THEN: Make the claim
+## Provenance
 
-Skip any step = lying, not verifying
-```
-
-## Common Failures
-
-| Claim | Requires | Not Sufficient |
-|-------|----------|----------------|
-| Tests pass | Test command output: 0 failures | Previous run, "should pass" |
-| Linter clean | Linter output: 0 errors | Partial check, extrapolation |
-| Build succeeds | Build command: exit 0 | Linter passing, logs look good |
-| Bug fixed | Test original symptom: passes | Code changed, assumed fixed |
-| Regression test works | Red-green cycle verified | Test passes once |
-| Agent completed | VCS diff shows changes | Agent reports "success" |
-| Requirements met | Line-by-line checklist | Tests passing |
-
-## Red Flags - STOP
-
-- Using "should", "probably", "seems to"
-- Expressing satisfaction before verification ("Great!", "Perfect!", "Done!", etc.)
-- About to commit/push/PR without verification
-- Trusting agent success reports
-- Relying on partial verification
-- Thinking "just this once"
-- Wanting the work over, tired of the loop
-- **ANY wording implying success without having run verification**
-
-## Rationalization Prevention
-
-| Excuse | Reality |
-|--------|---------|
-| "Should work now" | RUN the verification |
-| "I'm confident" | Confidence ≠ evidence |
-| "Just this once" | No exceptions |
-| "Linter passed" | Linter ≠ compiler |
-| "Agent said success" | Verify independently |
-| "I'm out of steam" | Fatigue ≠ excuse |
-| "Partial check is enough" | Partial proves nothing |
-| "Different words so rule doesn't apply" | Spirit over letter |
-
-## Key Patterns
-
-**Tests:**
-```
-✅ [Run test command] [See: 34/34 pass] "All tests pass"
-❌ "Should pass now" / "Looks correct"
-```
-
-**Regression tests (TDD Red-Green):**
-```
-✅ Write → Run (pass) → Revert fix → Run (MUST FAIL) → Restore → Run (pass)
-❌ "I've written a regression test" (without red-green verification)
-```
-
-**Build:**
-```
-✅ [Run build] [See: exit 0] "Build passes"
-❌ "Linter passed" (linter doesn't check compilation)
-```
-
-**Requirements:**
-```
-✅ Re-read plan → Create checklist → Verify each → Report gaps or completion
-❌ "Tests pass, phase complete"
-```
-
-**Agent delegation:**
-```
-✅ Agent reports success → Check VCS diff → Verify changes → Report actual state
-❌ Trust agent report
-```
-
-## Why This Matters
-
-Patterns from real failure postmortems:
-- Users have said, plainly, "I don't believe you" after an unverified success claim — trust broken
-- Undefined functions shipped - would crash
-- Missing requirements shipped - incomplete features
-- Time wasted on false completion → redirect → rework
-- Honesty is a core value: claiming success you haven't verified is a form of lying, even when unintentional
-
-## When To Apply
-
-**ALWAYS before:**
-- ANY variation of success/completion claims
-- ANY expression of satisfaction
-- ANY positive statement about work state
-- Committing, PR creation, task completion
-- Moving to next task
-- Delegating to agents
-
-**Rule applies to:**
-- Exact phrases
-- Paraphrases and synonyms
-- Implications of success
-- ANY communication suggesting completion/correctness
-
-## The Bottom Line
-
-**No shortcuts for verification.**
-
-Run the command. Read the output. THEN claim the result.
-
-This is non-negotiable.
+This condensed Zulfiqar workflow is an independent reimplementation inspired
+by the fresh-evidence completion gate in
+[obra/superpowers](https://github.com/obra/superpowers). It does not reproduce
+the upstream skill text. See `THIRD-PARTY-NOTICES.md`.

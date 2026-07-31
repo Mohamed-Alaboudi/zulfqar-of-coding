@@ -1,0 +1,11 @@
+skill: re-entry
+should_fire:
+  - scaffold this repo so a fresh session can pick it up
+  - log our progress to the docs
+  - record this decision
+  - reconcile this folder after everything we changed
+must_not_fire:
+  - write a handoff prompt
+  - deploy this
+  - review this code
+  - clean up this function

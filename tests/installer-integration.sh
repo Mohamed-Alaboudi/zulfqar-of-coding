@@ -54,12 +54,30 @@ grep -q "\[PASS\] AGENTS.md present: ${PROJECT}/AGENTS.md" "${OUTPUT}" || {
   printf 'FAIL: installer did not verify the selected project directory\n' >&2; exit 1;
 }
 grep -q '# user marker' "${MCP_HOME}/.codex/config.toml" || { printf 'FAIL: MCP write clobbered existing config\n' >&2; exit 1; }
-[ "$(grep -c 'appended by zulfqar' "${MCP_HOME}/.codex/config.toml")" -eq 1 ] || {
-  printf 'FAIL: MCP template was not appended exactly once\n' >&2; exit 1;
+[ "$(grep -c 'appended by zulfiqar' "${MCP_HOME}/.codex/config.toml")" -eq 1 ] || {
+  printf 'FAIL: MCP template did not use the Zulfiqar marker exactly once\n' >&2; exit 1;
 }
 HOME="${MCP_HOME}" bash "${FIXTURE}/install.sh" --agent=codex --write-mcp --project-dir="${PROJECT}" >/dev/null
-[ "$(grep -c 'appended by zulfqar' "${MCP_HOME}/.codex/config.toml")" -eq 1 ] || {
+[ "$(grep -c 'appended by zulfiqar' "${MCP_HOME}/.codex/config.toml")" -eq 1 ] || {
   printf 'FAIL: repeated MCP install duplicated entries\n' >&2; exit 1;
 }
+
+LEGACY_HOME="${TEST_ROOT}/legacy-mcp-home"
+mkdir -p "${LEGACY_HOME}/.codex"
+printf '%s\n' '# --- appended by zulfqar-of-coding install.sh (--write-mcp) ---' > "${LEGACY_HOME}/.codex/config.toml"
+HOME="${LEGACY_HOME}" bash "${FIXTURE}/install.sh" --agent=codex --write-mcp --project-dir="${PROJECT}" >/dev/null
+[ "$(grep -c 'appended by zulfqar-of-coding' "${LEGACY_HOME}/.codex/config.toml")" -eq 1 ] &&
+  [ "$(grep -c 'appended by zulfiqar' "${LEGACY_HOME}/.codex/config.toml")" -eq 0 ] || {
+  printf 'FAIL: legacy MCP marker was not treated as an existing install\n' >&2; exit 1;
+}
+
+printf '%s\n' '#!/usr/bin/env bash' 'sleep 2' 'exit 0' > "${FIXTURE}/scripts/scan-secrets.sh"
+chmod +x "${FIXTURE}/scripts/scan-secrets.sh"
+if ZULFIQAR_SCAN_TIMEOUT_SECS=1 HOME="${TEST_ROOT}/preferred-timeout-home" bash "${FIXTURE}/install.sh" --agent=codex --skills-only >/dev/null 2>&1; then
+  printf 'FAIL: preferred Zulfiqar scan timeout was ignored\n' >&2; exit 1
+fi
+if ZULFQAR_SCAN_TIMEOUT_SECS=1 HOME="${TEST_ROOT}/legacy-timeout-home" bash "${FIXTURE}/install.sh" --agent=codex --skills-only >/dev/null 2>&1; then
+  printf 'FAIL: legacy Zulfqar scan timeout was ignored\n' >&2; exit 1
+fi
 
 printf 'installer integration: PASS\n'

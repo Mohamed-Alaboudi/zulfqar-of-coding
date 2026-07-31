@@ -1,0 +1,10 @@
+skill: markdown-to-pdf
+should_fire:
+  - turn this markdown into a pdf
+  - convert these notes to pdf
+  - export this markdown report as a pdf
+must_not_fire:
+  - read this pdf
+  - merge these two pdfs
+  - make a word doc
+  - write this to a markdown file

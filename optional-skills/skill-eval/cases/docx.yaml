@@ -1,0 +1,11 @@
+skill: docx
+should_fire:
+  - make me a word doc of this
+  - export this to docx
+  - read the contract docx i provided
+  - turn this into a formatted word document with headings
+must_not_fire:
+  - make me a pdf
+  - write this to a markdown file
+  - open the spreadsheet
+  - write documentation for this code

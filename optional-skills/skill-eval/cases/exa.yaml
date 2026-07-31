@@ -1,0 +1,10 @@
+skill: exa
+should_fire:
+  - set up exa in this project
+  - use the exa api for this
+  - integrate exa search
+must_not_fire:
+  - search the web for this
+  - do deep research
+  - what is exa
+  - find this in my codebase

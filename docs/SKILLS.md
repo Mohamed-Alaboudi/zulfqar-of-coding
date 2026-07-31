@@ -19,6 +19,12 @@ Run `scripts/check-skill-budget.sh` after adding or expanding skills. It measure
 initial catalog payload (`name` + `description`), warns at 6,400 characters, and gates at 8,000 so
 trigger descriptions remain discoverable instead of silently consuming the whole startup budget.
 
+This index has two public body tiers: 20 defaults under `skills/`, loaded by
+the installer and plugin manifests, and 22 manual opt-ins under
+`optional-skills/`. The complete 2026-07-31 local inventory—including
+duplicate Claude/Codex variants, pointers, and exclusions—is recorded in
+[`catalog/skills.tsv`](../catalog/skills.tsv).
+
 ---
 
 ## Anti-slop / reasoning
@@ -66,6 +72,38 @@ trigger descriptions remain discoverable instead of silently consuming the whole
 |---|---|---|---|
 | `exa` | Use or scaffold Exa AI search (the Exa API / MCP / SDKs) for web research inside an agent session, preferred over generic search when connected. | PORTABLE (bring-your-own-key) | Exa exposes both an MCP server (works in any MCP-capable agent) and official `exa-js`/`exa-py` SDKs for direct repo integration — pick whichever surface the target agent supports. Requires the user's own API key; the shipped skill never embeds one. |
 
+## Optional skills
+
+These reviewed first-party bodies are public source but are not loaded by
+default. Install one named directory only after inspecting it and resolving
+any same-name collision. Full instructions:
+[`optional-skills/README.md`](../optional-skills/README.md).
+
+| Skill | Purpose | Portability |
+|---|---|---|
+| `authentic` | User-invoked steelman-first, evidence-based feedback mode. | Text-only; explicit invocation. |
+| `codex-delegation` | Runs one bounded worker through an installed Codex CLI. | Claude-side opt-in; CLI discovered from `PATH`. |
+| `collaborator-handoff` | Writes a setup and access handoff for a human teammate. | Repository evidence only; no access grants. |
+| `compact-handoff` | Produces a durable continuation handoff before a new context. | Text and repository artifacts only. |
+| `concise` | Applies one answer-first, lossless terse-response pass. | Text-only; explicit invocation. |
+| `email-to-md` | Saves new email drafts as Markdown instead of chat-only text. | Uses the current workflow's safe scratch path. |
+| `explain-code` | Teaches a code path or diff with grounded evidence and a mental model. | Repository read-only unless the user asks for edits. |
+| `extract` | Converts a recurring memory-backed procedure into a trigger-tested skill. | Requires project records and the available skill-authoring workflow. |
+| `find-skills` | Discovers and evaluates existing skills before proposing a new one. | Uses the approved discovery surface; installation remains explicit. |
+| `gws` | Uses a caller-configured Google Workspace CLI for reads and approved writes. | `gws` discovered from `PATH`; auth remains caller-managed. |
+| `markdown-to-pdf` | Converts Markdown with a caller-installed typesetting toolchain and visual QA. | Requires `md2pdf`, `pandoc`, and `typst` on `PATH`. |
+| `mem-search` | Retrieves prior-session evidence from a configured memory connector. | Read-only and connector-generic. |
+| `optimize-code` | Runs a bounded baseline/hypothesis/measurement loop. | Uses existing project measurement tools. |
+| `promote` | Proposes one proven memory fact as a governing rule. | Exact-text approval required before any edit. |
+| `ship-it` | Publishes an already-verified change to an explicitly authorized destination. | Provider-neutral; external actions require current authority. |
+| `simplify-code` | Reduces a recent diff while preserving behavior and safeguards. | Uses existing tests and project conventions. |
+| `skill-eval` | Builds and scores routing cases and audits explicit transcript paths. | Python standard library only; never calls a model itself. |
+| `spinner` | Runs one fresh decision, plan-audit, or post-build refutation pass. | Requires a fresh-context reviewer primitive. |
+| `ui-demo` | Discovers, rehearses, records, and inspects a browser walkthrough. | Requires an authorized URL and browser automation surface. |
+| `ultracode` | Executes hard implementation with maximum-depth root judgment and bounded lanes. | Codex-oriented; cannot raise an active session's native effort. |
+| `ultrathink` | Performs maximum-depth, no-edit, no-delegation analysis. | Codex-oriented; cannot raise an active session's native effort. |
+| `vidi` | Synchronizes transcript evidence with sampled video frames. | Uses caller-authorized media and tools discovered from `PATH`. |
+
 ## Method docs (not skills — no `SKILL.md`, just documented procedure)
 
 These two are shipped as prose method documents rather than invocable skills, because their real
@@ -99,5 +137,17 @@ These skills are installed in the audited local environment but remain upstream 
 | `security-threat-model` | Repository-grounded AppSec threat modeling | [OpenAI skills](https://github.com/openai/skills) |
 | `supabase` | CLI-first Supabase development and security workflows | [Supabase agent skills](https://github.com/supabase/agent-skills) |
 | `supabase-postgres-best-practices` | Postgres schema, query, and performance guidance | [Supabase agent skills](https://github.com/supabase/agent-skills) |
+
+The catalog also points to the locally observed Agent Reach, Firecrawl,
+Compound Engineering, Last30Days, Superpowers-family, BMAD-family, and
+proprietary Anthropic document bundles. See
+[`docs/CREDITS-AND-UPSTREAM.md`](CREDITS-AND-UPSTREAM.md) for attribution and
+license boundaries.
+
+The default brainstorming, review-intake, debugging, strategy-reset,
+verification, planning, and Stop Slop skills are short Zulfiqar
+reimplementations of attributed workflow ideas. They do not include the
+upstream bodies or helper files; see
+[`THIRD-PARTY-NOTICES.md`](../THIRD-PARTY-NOTICES.md).
 
 Repo-scoped `design`, `apps`, `growth`, and `voice` collections are documented in [`packs/README.md`](../packs/README.md). Their third-party payloads are intentionally not copied here.

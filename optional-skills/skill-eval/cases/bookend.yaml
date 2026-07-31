@@ -1,0 +1,10 @@
+skill: bookend
+should_fire:
+  - bookend this prompt
+  - restate the task at the end of this prompt
+  - this prompt is long, put the objective at the bottom too
+must_not_fire:
+  - write me a prompt
+  - shorten this prompt
+  - what does bookend mean
+  - improve this prompt

@@ -35,12 +35,18 @@ upstream pattern, not straight installs.
 | **security-threat-model** | [openai/skills](https://github.com/openai/skills) | — (see repo) | Source for the locally reviewed repository-grounded threat-modeling skill. Install from the pinned upstream revision recorded in `PROVENANCE.yaml`. |
 | **Supabase agent skills** | [supabase/agent-skills](https://github.com/supabase/agent-skills) | — (see repo) | Source for the reviewed Supabase and Postgres-best-practices skills. Install upstream; do not copy active project credentials or configuration. |
 | **Google Workspace CLI** | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Apache-2.0 | Optional `gws` CLI for Workspace automation. It states that it is not an officially supported Google product; OAuth state remains local. |
+| **Agent Reach** | [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) | — (see repo) | Multi-platform search and retrieval tooling. This repo records the local skill fingerprints but does not publish its bodies, browser state, or authenticated clients. |
+| **Firecrawl agent skills** | [firecrawl/skills](https://github.com/firecrawl/skills) | — (see repo) | Upstream home for the locally observed Firecrawl integration and workflow skills. Install upstream rather than copying the local bundle. |
+| **Superpowers skills** | [obra/superpowers](https://github.com/obra/superpowers) | MIT | Upstream family for locally installed planning, debugging, TDD, and verification workflows. Full upstream bodies remain pointers. Zulfiqar ships six short, independently written workflows inspired by the same general methods; their relationship is recorded in `THIRD-PARTY-NOTICES.md`. |
+| **Stop Slop** | [Hardik Pandya's Stop Slop](https://github.com/aiskillstore/marketplace/tree/main/skills/hardikpandya/stop-slop) | MIT | Source of the locally installed prose-editing bundle. Its body and references remain upstream; Zulfiqar ships a compact, independently written editing workflow with explicit attribution. |
+| **BMAD Method family** | [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) | — (see repo) | Branding-level pointer for an unattributed local edge-case review skill. Its exact derivative could not be verified, so the body is not published. |
+| **Anthropic service document skills** | [Anthropic consumer terms](https://www.anthropic.com/legal/consumer-terms) | Proprietary | The locally installed document, PDF, and spreadsheet bundles prohibit copying and redistribution. Their names and fingerprints are cataloged; their bodies and helper payloads are excluded. |
 
 ## License notes
 
-- **MIT** bundles (compound-engineering, apple-skills, ponytail): permissive,
-  minimal obligation beyond preserving the copyright/license notice if you
-  redistribute.
+- **MIT** bundles (compound-engineering, apple-skills, ponytail, Superpowers,
+  Stop Slop): permissive, with the copyright and license notice preserved when
+  redistributing upstream expression.
 - **Apache-2.0** bundles (impeccable, claude-mem, Google Workspace CLI): permissive but carries a
   **NOTICE file** requirement — if you redistribute the licensed work (with
   or without modification), any NOTICE file the upstream ships must be
@@ -50,6 +56,14 @@ upstream pattern, not straight installs.
 - Bundles marked "— (see repo)" don't have a license this document can state
   confidently as of the last update here; check the repo's own `LICENSE`
   file before redistributing.
+- The BMAD pointer identifies a project family, not the verified exact
+  source of the local derivative. The catalog records that uncertainty
+  instead of inventing authorship.
+- Zulfiqar's Superpowers-inspired and Stop Slop-inspired bodies use original,
+  condensed prose. The upstream skill files and helper payloads are not
+  included.
+- Anthropic's local document bundles are proprietary and are not
+  redistributable from this repository.
 
 This is a point-with-attribution list, not a legal opinion. Read the
 upstream's actual license file before you redistribute anything.

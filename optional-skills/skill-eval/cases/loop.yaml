@@ -1,0 +1,10 @@
+skill: loop
+should_fire:
+  - check the deploy every 5 minutes
+  - keep running this on an interval
+  - run this repeatedly until it passes
+must_not_fire:
+  - run this once
+  - schedule this for tomorrow
+  - watch this build
+  - do this now

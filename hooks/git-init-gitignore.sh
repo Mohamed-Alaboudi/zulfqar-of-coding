@@ -4,7 +4,7 @@
 # seed the new repo's .gitignore with .env rules so secret files can never be
 # staged in the first place (companion to git-guardrail's deny). Fail-open.
 #
-# Portable pattern from the Zulfqar of Coding toolkit (see the README beside
+# Portable pattern from the Zulfiqar toolkit (see the README beside
 # this file for how to reimplement as a git template or Codex hook).
 set -euo pipefail
 input="$(cat)"

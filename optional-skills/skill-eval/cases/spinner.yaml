@@ -1,0 +1,15 @@
+skill: spinner
+should_fire:
+  - stress test this plan before i run it
+  - get me a second opinion on this decision
+  - is this migration design missing anything
+  - check this spec for anything ambiguous
+  - pressure-test the approach before i commit
+  - am i about to make a mistake here
+  - have a fresh set of eyes look at this commit
+must_not_fire:
+  - what does this error mean
+  - run the tests
+  - fix this bug
+  - deploy this
+  - explain how the auth flow works

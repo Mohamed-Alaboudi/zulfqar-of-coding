@@ -1,313 +1,77 @@
 ---
 name: systematic-debugging
-description: ALWAYS invoke the moment a bug, test failure, crash, traceback, or unexpected/wrong behavior appears — BEFORE proposing or writing any fix. Do NOT debug from intuition or jump straight to a patch; root-cause-first takes precedence over the instinct to immediately fix. Triggers include "it's broken", "failing test", "this errors", "why is this happening", "unexpected output", regressions. NOT for writing new features from scratch or reviewing code that already works.
+description: "Use immediately for bugs, failing tests, crashes, tracebacks, regressions, or unexpected behavior; establish the causal chain before changing production code. Not for new features or known mechanical corrections."
 ---
 
 # Systematic Debugging
 
-## Overview
+The deliverable is not a plausible fix. It is an evidence-backed explanation
+of how the observed symptom is produced, followed by the smallest correction
+to that cause.
 
-Random fixes waste time and create new bugs. Quick patches mask underlying issues.
+## 1. Stabilize the observation
 
-**Core principle:** ALWAYS find root cause before attempting fixes. Symptom fixes are failure.
+- Capture the exact command, input, environment, output, and exit status.
+- Reduce the problem to the smallest repeatable reproduction.
+- If it is intermittent, gather timing, ordering, and state evidence before
+  editing code.
+- Read the complete error and the frames or logs that precede it.
 
-**Violating the letter of this process is violating the spirit of debugging.**
+If the reported behavior cannot be reproduced, state what was tested and add
+diagnostics at the boundary where evidence disappears. Do not guess.
 
-## The Iron Law
+## 2. Trace the causal path
 
-```
-NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
-```
+Start at the symptom and walk backward:
 
-If you haven't completed Phase 1, you cannot propose fixes.
+1. Which value or state is wrong here?
+2. Which caller or boundary supplied it?
+3. Where was it first created or mutated?
+4. Which contract allowed that state?
 
-## When to Use
+For multi-process or multi-service paths, record the value entering and
+leaving each boundary. Redact secrets. Stop when the first incorrect
+transition is proven.
 
-Use for ANY technical issue:
-- Test failures
-- Bugs in production
-- Unexpected behavior
-- Performance problems
-- Build failures
-- Integration issues
+Compare the failing path with the nearest working path. List meaningful
+differences in inputs, configuration, versions, state, and ordering.
 
-**Use this ESPECIALLY when:**
-- Under time pressure (emergencies make guessing tempting)
-- "Just one quick fix" seems obvious
-- You've already tried multiple fixes
-- Previous fix didn't work
-- You don't fully understand the issue
+## 3. Test one hypothesis
 
-**Don't skip when:**
-- Issue seems simple (simple bugs have root causes too)
-- You're in a hurry (rushing guarantees rework)
-- Someone wants it fixed NOW (systematic is faster than thrashing)
+Write one statement in this form:
 
-## The Four Phases
+> Because evidence A and B show transition C, cause D produces symptom E.
 
-You MUST complete each phase before proceeding to the next.
+Choose a minimal experiment that can falsify it. Change one variable, run the
+reproduction, and record the result. A failed experiment replaces the
+hypothesis; it does not justify stacking another speculative change on top.
 
-### Phase 1: Root Cause Investigation
+## 4. Correct the cause
 
-**BEFORE attempting ANY fix:**
+Before implementation, leave a runnable check that fails for the reproduced
+case when practical. Then:
 
-1. **Read Error Messages Carefully**
-   - Don't skip past errors or warnings
-   - They often contain the exact solution
-   - Read stack traces completely
-   - Note line numbers, file paths, error codes
+- change the earliest shared point that permits the invalid state;
+- preserve public contracts unless the task explicitly changes them;
+- avoid opportunistic refactors;
+- run the focused check and the relevant regression suite;
+- verify external state or side effects by reading them back.
 
-2. **Reproduce Consistently**
-   - Can you trigger it reliably?
-   - What are the exact steps?
-   - Does it happen every time?
-   - If not reproducible → gather more data, don't guess
+## Escalation
 
-3. **Check Recent Changes**
-   - What changed that could cause this?
-   - Git diff, recent commits
-   - New dependencies, config changes
-   - Environmental differences
+After three distinct hypotheses fail, stop editing. Summarize the evidence,
+failed explanations, and suspected architectural assumption, then use
+`unstick` or ask for the missing decision. Repeating variants of the same
+experiment is not progress.
 
-4. **Gather Evidence in Multi-Component Systems**
+## Report
 
-   **WHEN system has multiple components (CI → build → signing, API → service → database):**
+Give the reproduction, causal chain, fix, regression evidence, and remaining
+unknowns. Distinguish observation from inference.
 
-   **BEFORE proposing fixes, add diagnostic instrumentation:**
-   ```
-   For EACH component boundary:
-     - Log what data enters component
-     - Log what data exits component
-     - Verify environment/config propagation
-     - Check state at each layer
+## Provenance
 
-   Run once to gather evidence showing WHERE it breaks
-   THEN analyze evidence to identify failing component
-   THEN investigate that specific component
-   ```
-
-   **Example (multi-layer system):**
-   ```bash
-   # Layer 1: Workflow
-   echo "=== Secrets available in workflow: ==="
-   echo "IDENTITY: ${IDENTITY:+SET}${IDENTITY:-UNSET}"
-
-   # Layer 2: Build script
-   echo "=== Env vars in build script: ==="
-   env | grep IDENTITY || echo "IDENTITY not in environment"
-
-   # Layer 3: Signing script
-   echo "=== Keychain state: ==="
-   security list-keychains
-   security find-identity -v
-
-   # Layer 4: Actual signing
-   codesign --sign "$IDENTITY" --verbose=4 "$APP"
-   ```
-
-   **This reveals:** Which layer fails (secrets → workflow ✓, workflow → build ✗)
-
-5. **Trace Data Flow**
-
-   **WHEN error is deep in call stack:**
-
-   See `root-cause-tracing.md` in this directory for the complete backward tracing technique.
-
-   **Quick version:**
-   - Where does bad value originate?
-   - What called this with bad value?
-   - Keep tracing up until you find the source
-   - Fix at source, not at symptom
-
-### Phase 2: Pattern Analysis
-
-**Find the pattern before fixing:**
-
-1. **Find Working Examples**
-   - Locate similar working code in same codebase
-   - What works that's similar to what's broken?
-
-2. **Compare Against References**
-   - If implementing pattern, read reference implementation COMPLETELY
-   - Don't skim - read every line
-   - Understand the pattern fully before applying
-
-3. **Identify Differences**
-   - What's different between working and broken?
-   - List every difference, however small
-   - Don't assume "that can't matter"
-
-4. **Understand Dependencies**
-   - What other components does this need?
-   - What settings, config, environment?
-   - What assumptions does it make?
-
-### Phase 3: Hypothesis and Testing
-
-**Scientific method:**
-
-1. **Form Single Hypothesis**
-   - State clearly: "I think X is the root cause because Y"
-   - Write it down
-   - Be specific, not vague
-
-2. **Test Minimally**
-   - Make the SMALLEST possible change to test hypothesis
-   - One variable at a time
-   - Don't fix multiple things at once
-
-3. **Verify Before Continuing**
-   - Did it work? Yes → Phase 4
-   - Didn't work? Form NEW hypothesis
-   - DON'T add more fixes on top
-
-4. **When You Don't Know**
-   - Say "I don't understand X"
-   - Don't pretend to know
-   - Ask for help
-   - Research more
-
-5. **Close the Causal Chain (no hand-waving)**
-   - A hypothesis is not accepted until it explains cause to effect with an unbroken mechanism.
-   - "Somehow the config change leads to the timeout" is a GAP, not an explanation. Find the actual link: which line reads the config, what value it produces, what that value does downstream, why THAT produces the timeout.
-   - Test: could you narrate the chain to someone else as a sequence of "this happens, which causes this, which causes this" with no step skipped? If any link is "somehow" or "must be", the hypothesis isn't done, it's a guess wearing a hypothesis's clothes.
-   - Fill the gap with evidence (a log line, a debugger stop, a print) before moving to Phase 4, not with plausible-sounding narrative.
-
-6. **One Change at a Time (shotgun debugging is not debugging)**
-   - Changing several things before re-running destroys the signal: if it works, you don't know which change fixed it; if it doesn't, you don't know which change to revert.
-   - Make ONE change. Run. Observe. Only then decide the next move (accept, revert, or refine).
-   - This applies to Phase 3 experiments as much as Phase 4 fixes. Batching "while I'm testing this I'll also tweak that" is the same violation earlier in the process.
-
-### Phase 4: Implementation
-
-**Fix the root cause, not the symptom:**
-
-1. **Create Failing Test Case**
-   - Simplest possible reproduction
-   - Automated test if possible
-   - One-off test script if no framework
-   - MUST have before fixing
-   - Use your test-first / TDD discipline for writing a proper failing test
-
-2. **Implement Single Fix**
-   - Address the root cause identified
-   - ONE change at a time
-   - No "while I'm here" improvements
-   - No bundled refactoring
-
-3. **Verify Fix**
-   - Test passes now?
-   - No other tests broken?
-   - Issue actually resolved?
-
-4. **If Fix Doesn't Work**
-   - STOP
-   - Count: How many fixes have you tried?
-   - If < 3: Return to Phase 1, re-analyze with new information
-   - **If ≥ 3: STOP and question the architecture (step 5 below)**
-   - DON'T attempt Fix #4 without architectural discussion
-
-5. **If 3+ Fixes Failed: Question Architecture**
-
-   **Pattern indicating architectural problem:**
-   - Each fix reveals new shared state/coupling/problem in different place
-   - Fixes require "massive refactoring" to implement
-   - Each fix creates new symptoms elsewhere
-
-   **STOP and question fundamentals:**
-   - Is this pattern fundamentally sound?
-   - Are you sticking with it through sheer inertia?
-   - Should you refactor architecture vs. continue fixing symptoms?
-
-   **Discuss with the user before attempting more fixes**
-
-   This is NOT a failed hypothesis - this is a wrong architecture.
-
-## Red Flags - STOP and Follow Process
-
-If you catch yourself thinking:
-- "Quick fix for now, investigate later"
-- "Just try changing X and see if it works"
-- "Add multiple changes, run tests"
-- "Skip the test, I'll manually verify"
-- "It's probably X, let me fix that"
-- "I don't fully understand but this might work"
-- "Pattern says X but I'll adapt it differently"
-- "Here are the main problems: [lists fixes without investigation]"
-- Proposing solutions before tracing data flow
-- **"One more fix attempt" (when already tried 2+)**
-- **Each fix reveals new problem in different place**
-
-**ALL of these mean: STOP. Return to Phase 1.**
-
-**If 3+ fixes failed:** Question the architecture (see Phase 4.5)
-
-## Signals You're Doing It Wrong
-
-**Watch for these redirections from the user:**
-- "Is that not happening?" - You assumed without verifying
-- "Will it show us...?" - You should have added evidence gathering
-- "Stop guessing" - You're proposing fixes without understanding
-- "Think harder about this" - Question fundamentals, not just symptoms
-- "We're stuck?" (frustrated) - Your approach isn't working
-
-**When you see these:** STOP. Return to Phase 1.
-
-## Common Rationalizations
-
-| Excuse | Reality |
-|--------|---------|
-| "Issue is simple, don't need process" | Simple issues have root causes too. Process is fast for simple bugs. |
-| "Emergency, no time for process" | Systematic debugging is FASTER than guess-and-check thrashing. |
-| "Just try this first, then investigate" | First fix sets the pattern. Do it right from the start. |
-| "I'll write test after confirming fix works" | Untested fixes don't stick. Test first proves it. |
-| "Multiple fixes at once saves time" | Can't isolate what worked. Causes new bugs. |
-| "Reference too long, I'll adapt the pattern" | Partial understanding guarantees bugs. Read it completely. |
-| "I see the problem, let me fix it" | Seeing symptoms ≠ understanding root cause. |
-| "One more fix attempt" (after 2+ failures) | 3+ failures = architectural problem. Question pattern, don't fix again. |
-
-## Quick Reference
-
-| Phase | Key Activities | Success Criteria |
-|-------|---------------|------------------|
-| **1. Root Cause** | Read errors, reproduce, check changes, gather evidence | Understand WHAT and WHY |
-| **2. Pattern** | Find working examples, compare | Identify differences |
-| **3. Hypothesis** | Form theory, test minimally | Confirmed or new hypothesis |
-| **4. Implementation** | Create test, fix, verify | Bug resolved, tests pass |
-
-## When Process Reveals "No Root Cause"
-
-If systematic investigation reveals issue is truly environmental, timing-dependent, or external:
-
-1. You've completed the process
-2. Document what you investigated
-3. Implement appropriate handling (retry, timeout, error message)
-4. Add monitoring/logging for future investigation
-
-**But:** most "no root cause" cases are incomplete investigation, not genuine dead ends.
-
-## Supporting Techniques
-
-These techniques are part of systematic debugging and available in this directory:
-
-- **`root-cause-tracing.md`** - Trace bugs backward through call stack to find original trigger
-- **`defense-in-depth.md`** - Add validation at multiple layers after finding root cause
-- **`condition-based-waiting.md`** - Replace arbitrary timeouts with condition polling
-
-**Debugger entry points (use these instead of print-guessing when tracing data flow or closing a causal-chain gap):**
-- Python: drop `breakpoint()` at the suspect line, or run under `pdb` (`python -m pdb script.py`), to inspect real values instead of assuming them.
-- Node: `node --inspect-brk script.js` for a breakable start, or `node inspect script.js` for the built-in CLI debugger, when a stack trace alone doesn't show the mechanism.
-- Go: `dlv debug` (Delve) to step through and inspect state; faster than sprinkling `fmt.Println`.
-- Regression (worked before, broken now): `git bisect start` against a known-good commit to binary-search the exact commit that introduced it, rather than guessing which recent change is responsible.
-
-**Related skills:**
-- **Your test-first / TDD practice** - For creating failing test case (Phase 4, Step 1)
-- **verification-before-completion** - Verify fix worked before claiming success
-
-## Real-World Impact
-
-From debugging sessions, teams that follow this process consistently report:
-- Systematic approach: 15-30 minutes to fix
-- Random fixes approach: 2-3 hours of thrashing
-- First-time fix rate: dramatically higher
-- New bugs introduced: near zero vs. common with guess-and-check
+This condensed Zulfiqar workflow is an independent reimplementation inspired
+by the evidence-first debugging pattern in
+[obra/superpowers](https://github.com/obra/superpowers). It does not reproduce
+the upstream skill text. See `THIRD-PARTY-NOTICES.md`.

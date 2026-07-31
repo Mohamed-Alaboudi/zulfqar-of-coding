@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — installer for Zulfqar of Coding.
+# install.sh — installer for Zulfiqar.
 #
 # Copies (or, with --symlink, links) skills/* into your agent's skills dir,
 # offers to drop templates/AGENTS.md + CLAUDE.md/GEMINI.md mirrors into a
@@ -40,7 +40,7 @@ PROJECT_DIR="$(pwd)"
 
 usage() {
   cat <<'EOF'
-install.sh — installer for Zulfqar of Coding
+install.sh — installer for Zulfiqar
 
 Usage:
   ./install.sh [options]
@@ -128,11 +128,12 @@ skip() { printf '  [skip] %s\n' "$*"; }
 # Bounded with a portable watchdog (no GNU `timeout` on stock macOS): if the
 # scan hasn't finished within SCAN_TIMEOUT_SECS, treat it as a failed
 # preflight rather than hanging the installer forever. Override with
-# ZULFQAR_SCAN_TIMEOUT_SECS if a very large repo needs more headroom.
+# ZULFIQAR_SCAN_TIMEOUT_SECS if a very large repo needs more headroom. The
+# legacy ZULFQAR_SCAN_TIMEOUT_SECS name remains accepted for compatibility.
 # ---------------------------------------------------------------------------
 step "Preflight: scanning this repo for secrets"
 SCAN_SCRIPT="${REPO_ROOT}/scripts/scan-secrets.sh"
-SCAN_TIMEOUT_SECS="${ZULFQAR_SCAN_TIMEOUT_SECS:-120}"
+SCAN_TIMEOUT_SECS="${ZULFIQAR_SCAN_TIMEOUT_SECS:-${ZULFQAR_SCAN_TIMEOUT_SECS:-120}}"
 
 if [ ! -x "${SCAN_SCRIPT}" ] && [ ! -f "${SCAN_SCRIPT}" ]; then
   printf 'install.sh: ABORT — scripts/scan-secrets.sh not found at %s\n' "${SCAN_SCRIPT}" >&2
@@ -156,7 +157,7 @@ while kill -0 "${SCAN_PID}" 2>/dev/null; do
     cat "${SCAN_LOG}"
     printf '\ninstall.sh: ABORT — scan-secrets.sh did not finish within %ss.\n' "${SCAN_TIMEOUT_SECS}" >&2
     printf 'Refusing to install without a completed secret scan. Re-run scripts/scan-secrets.sh\n' >&2
-    printf 'directly to investigate, or set ZULFQAR_SCAN_TIMEOUT_SECS to allow more time.\n' >&2
+    printf 'directly to investigate, or set ZULFIQAR_SCAN_TIMEOUT_SECS to allow more time.\n' >&2
     exit 1
   fi
 done
@@ -493,6 +494,12 @@ if [ "${SKILLS_ONLY}" -eq 0 ]; then
       return 0
     fi
 
+    if grep -qF '# --- appended by zulfiqar install.sh (--write-mcp) ---' "${dest}" 2>/dev/null \
+      || grep -qF '# --- appended by zulfqar-of-coding install.sh (--write-mcp) ---' "${dest}" 2>/dev/null; then
+      log "  Zulfiqar MCP block already present in ${dest} — leaving it untouched."
+      return 0
+    fi
+
     local any_conflict=0
     while IFS= read -r table_name; do
       [ -n "${table_name}" ] || continue
@@ -509,7 +516,7 @@ if [ "${SKILLS_ONLY}" -eq 0 ]; then
     fi
 
     {
-      printf '\n# --- appended by zulfqar-of-coding install.sh (--write-mcp) ---\n'
+      printf '\n# --- appended by zulfiqar install.sh (--write-mcp) ---\n'
       cat "${src}"
     } >> "${dest}"
     wrote "appended MCP servers from ${src} -> ${dest}"

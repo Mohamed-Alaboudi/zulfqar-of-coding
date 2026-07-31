@@ -17,3 +17,11 @@ marketplace-cache/
 
 # internal build scaffolding — never publish
 docs/plans/
+
+# re-entry scratch and machine-local artifacts
+tmp/*
+!tmp/.gitkeep
+*.local.md
+*.local.json
+.visual-baselines/
+Codex.local.md

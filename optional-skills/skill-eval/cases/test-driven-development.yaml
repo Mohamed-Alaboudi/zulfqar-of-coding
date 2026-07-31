@@ -1,0 +1,10 @@
+skill: test-driven-development
+should_fire:
+  - build this with tests first
+  - do this tdd style
+  - write the failing test before implementing
+must_not_fire:
+  - add tests for this existing code
+  - fix this typo
+  - run the tests
+  - review this code

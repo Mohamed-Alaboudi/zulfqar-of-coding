@@ -127,6 +127,68 @@
   license: MIT
   relationship: pointer
 
+- artifact: agent-reach
+  upstream: Panniantong/Agent-Reach
+  url: https://github.com/Panniantong/Agent-Reach
+  license: see-upstream-repo
+  relationship: pointer
+  note: The local installations are cataloged by fingerprint only; their bodies, login state, and platform clients are not redistributed.
+
+- artifact: firecrawl-agent-skills
+  upstream: firecrawl/skills and firecrawl/firecrawl-workflows
+  url: https://github.com/firecrawl/skills
+  license: see-upstream-repos
+  relationship: pointer
+  note: Covers the locally observed Firecrawl CLI, product-integration, and workflow skills. Install current upstream bundles directly.
+
+- artifact: anthropic-document-skills
+  upstream: Anthropic service-provided document skills
+  url: https://www.anthropic.com/legal/consumer-terms
+  ref: locally-installed-version-unknown
+  license: proprietary
+  relationship: pointer
+  note: The installed license prohibits copying and redistribution. No document, PDF, or spreadsheet skill body or helper payload is shipped here.
+
+- artifact: superpowers-skills
+  upstream: obra/superpowers
+  url: https://github.com/obra/superpowers
+  ref: 44c9b2d6e889982ac18c27d05a19fefe335194e1
+  license: MIT
+  relationship: pointer
+  note: Covers the cataloged third-party local variants and test-driven-development body. Install the upstream project for its full skills; those bodies and helpers are not redistributed here.
+
+- artifact: superpowers-workflow-patterns
+  upstream: obra/superpowers
+  url: https://github.com/obra/superpowers
+  ref: 44c9b2d6e889982ac18c27d05a19fefe335194e1
+  license: MIT
+  relationship: reimplemented
+  note: Covers the condensed Zulfiqar brainstorming, receiving-code-review, systematic-debugging, unstick, verification-before-completion, and writing-plans bodies. Their prose and structure were rewritten independently; upstream helper files are not shipped.
+
+- artifact: stop-slop-upstream
+  upstream: Hardik Pandya/stop-slop via aiskillstore/marketplace
+  url: https://github.com/aiskillstore/marketplace/tree/main/skills/hardikpandya/stop-slop
+  ref: 632c70fc315ad46112b518aad9a2f5e75a03488a
+  license: MIT
+  relationship: pointer
+  note: Covers the cataloged third-party local Stop Slop bundles. Their body, references, and bundled license file are not redistributed here.
+
+- artifact: stop-slop-pattern
+  upstream: Hardik Pandya/stop-slop via aiskillstore/marketplace
+  url: https://github.com/aiskillstore/marketplace/tree/main/skills/hardikpandya/stop-slop
+  ref: 632c70fc315ad46112b518aad9a2f5e75a03488a
+  license: MIT
+  relationship: reimplemented
+  note: Covers the compact Zulfiqar stop-slop body, which applies the general remove-generic-AI-writing-tells idea with independently written prose and no copied references.
+
+- artifact: bmad-edge-case-review
+  upstream: BMAD-branded local installation
+  url: https://github.com/bmad-code-org/BMAD-METHOD
+  ref: exact-local-origin-unverified
+  license: see-upstream-repo
+  relationship: pointer
+  note: The local skill contains no authorship or source metadata. The URL identifies the BMAD project family; the exact local derivative remains unknown and is not redistributed.
+
 - artifact: security-guidance
   upstream: anthropics/claude-plugins-official
   url: https://github.com/anthropics/claude-plugins-official

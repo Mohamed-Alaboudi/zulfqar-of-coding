@@ -1,0 +1,9 @@
+skill: security-review
+should_fire:
+  - do a security review of this branch
+  - security review the pending changes
+must_not_fire:
+  - review this code
+  - is this password strong
+  - fix this bug
+  - scan my whole repo for secrets

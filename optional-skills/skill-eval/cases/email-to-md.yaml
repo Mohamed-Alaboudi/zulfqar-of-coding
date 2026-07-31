@@ -1,0 +1,16 @@
+skill: email-to-md
+should_fire:
+  - write an email confirming access to the beta
+  - write up a follow-up to the investor we met last week
+  - draft a cold email to that restaurant owner
+  - write an email to the project lead about the contract terms
+  - compose a reply to the vendor asking about their data policy
+  - put together an intro email for the new intern
+  - send a teammate a quick note that the branch is merged
+  - email the landlord about the lease and make it firm but polite
+must_not_fire:
+  - fix the email validation regex in signup
+  - why is the email api returning 401
+  - read the last email in my inbox and summarize it
+  - the email field on the form isnt saving to the database
+  - check if the email api key is configured
