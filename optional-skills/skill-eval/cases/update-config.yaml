@@ -1,0 +1,11 @@
+skill: update-config
+should_fire:
+  - allow package manager commands without asking
+  - add a permission for this cli
+  - set a debug value in my settings
+  - whenever i stop show me this reminder
+must_not_fire:
+  - remember this for next time
+  - change this config file in my repo
+  - enable the design pack
+  - what settings do i have

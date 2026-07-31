@@ -1,6 +1,6 @@
 # Setup
 
-Full install walkthrough for Zulfqar of Coding.
+Full install walkthrough for Zulfiqar.
 
 ## Prerequisites
 
@@ -11,8 +11,8 @@ Full install walkthrough for Zulfqar of Coding.
 ## Clone
 
 ```bash
-git clone <this-repo-url>
-cd zulfqar-of-coding
+git clone https://github.com/Mohamed-Alaboudi/zulfiqar.git
+cd zulfiqar
 ```
 
 ## `install.sh` flags
@@ -54,6 +54,27 @@ Skills land in `~/.codex/skills/`. For repository-scoped installation, copy sele
 ```
 
 Cursor and most other `AGENTS.md`-native agents need no skill installation step — they read `AGENTS.md` directly. The installer's job here is mostly copying `templates/AGENTS.md` into your project if you don't already have one. Path convention: keep `AGENTS.md` at the project root; nested `AGENTS.md` files in subdirectories are supported by several agents (Codex, Cursor) as directory-scoped overrides.
+
+## Optional skills
+
+The installer and plugin manifests intentionally expose only the reviewed
+default set in `skills/`. Additional first-party workflows under
+`optional-skills/` are manual opt-ins so specialized triggers do not inflate
+the default discovery payload.
+
+Inspect the selected body and confirm that its name does not collide with an
+existing installation. Then copy only that directory:
+
+```bash
+skill_name=concise
+test ! -e "${HOME}/.codex/skills/${skill_name}"
+cp -R "optional-skills/${skill_name}" "${HOME}/.codex/skills/${skill_name}"
+```
+
+Use `${HOME}/.claude/skills/` for Claude Code. Do not bulk-copy the optional
+tree or overwrite a same-named skill without reviewing the collision. See
+[`catalog/skills.tsv`](catalog/skills.tsv) for every imported, superseded,
+pointer-only, and excluded local entry.
 
 ## MCP setup (BYO key)
 

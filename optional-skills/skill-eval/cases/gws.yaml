@@ -1,0 +1,11 @@
+skill: gws
+should_fire:
+  - whats on my calendar today
+  - check my inbox for anything from the landlord
+  - find that spreadsheet in my drive
+  - add this to my google calendar
+must_not_fire:
+  - draft an email to the vendor
+  - read this local csv
+  - deploy this
+  - what time is it

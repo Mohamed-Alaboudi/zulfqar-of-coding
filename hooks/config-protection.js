@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Derived from affaan-m/ECC (MIT, Affaan Mustafa) - config-write protection.
-// Ships in the Zulfqar of Coding toolkit under that upstream's MIT terms; see
+// Ships in the Zulfiqar toolkit under that upstream's MIT terms; see
 // THIRD-PARTY-NOTICES.md. Logic unmodified from the upstream approach.
 // Wired in Claude Code: PreToolUse matcher Edit|Write|MultiEdit. Blocks edits
 // to existing lint/format configs.

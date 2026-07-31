@@ -180,6 +180,33 @@ check_ssn() {
 
 check_credit_card() {
   local line="$1" n="$2" f="$3"
+  # Timestamped backup names use YYYYMMDD-HHMMSS, which otherwise looks like
+  # an unformatted 14-digit card. Mask that timestamp only on .bak records.
+  if [[ "$line" == *".bak-"* ]]; then
+    local backup_timestamp_re='[0-9]{8}-[0-9]{6}'
+    while [[ "$line" =~ $backup_timestamp_re ]]; do
+      local backup_timestamp="${BASH_REMATCH[0]}"
+      line="${line//$backup_timestamp/}"
+    done
+  fi
+  # A SHA-256 fingerprint can contain a 13-19 digit run by chance. Exempt only
+  # explicit digest records and this repository's fingerprint column; masking
+  # every 64-hex token would let an unlabeled token conceal a card-shaped value.
+  local labeled_fingerprint_re='^[[:space:]]*(sha256|SHA-256)[[:space:]]*:[[:space:]]*([0-9A-Fa-f]{64})[[:space:]]*$'
+  if [[ "$line" =~ $labeled_fingerprint_re ]]; then
+    local labeled_fingerprint="${BASH_REMATCH[2]}"
+    line="${line/$labeled_fingerprint/}"
+  fi
+  if [[ "$f" == */catalog/skills.tsv || "$f" == "catalog/skills.tsv" ]]; then
+    local catalog_record catalog_concept catalog_name catalog_source
+    local catalog_fingerprint catalog_remainder
+    IFS=$'\t' read -r \
+      catalog_record catalog_concept catalog_name catalog_source \
+      catalog_fingerprint catalog_remainder <<< "$line"
+    if [[ "$catalog_fingerprint" =~ ^[0-9A-Fa-f]{64}$ ]]; then
+      line="${line/$catalog_fingerprint/}"
+    fi
+  fi
   local re='[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{1,7}'
   while [[ "$line" =~ $re ]]; do
     local full="${BASH_REMATCH[0]}"
@@ -644,6 +671,8 @@ docs sample aws AKIAFAKE1234567890AB
 docs sample openai sk-proj-FAKE1234567890abcdEFGH
 host https://api.example.com/v1
 projectId=${SUPABASE_PROJECT_ID}
+sha256: 813b833d2ffff6c74e3658bbf607b63b50d0a54c14e9f2aad4381351076046b7
+backup: .bak-combo-20260714-024605
 ALLOWED
   local allow_out allow_status
   allow_out="$(run_scan "$allow_tmp" 2>&1)"
@@ -653,6 +682,22 @@ ALLOWED
     printf '  [ok]   placeholders/docs samples pass clean (exit 0)\n'
   else
     printf '  [FAIL] allowlisted file gate-failed (exit %d):\n%s\n' "$allow_status" "$allow_out"
+    pass=0
+  fi
+
+  echo "== selftest: SHA-shaped card regression =="
+  local embedded_card_tmp embedded_card_token embedded_card_out embedded_card_status
+  embedded_card_tmp="$(mktemp "${TMPDIR:-/tmp}/scan-secrets-selftest-card.XXXXXX")"
+  embedded_card_token="$(printf 'a%.0s' {1..24})"'4111111111111112'"$(printf 'b%.0s' {1..24})"
+  printf 'opaque token: %s\n' "$embedded_card_token" > "$embedded_card_tmp"
+  embedded_card_out="$(run_scan "$embedded_card_tmp" 2>&1)"
+  embedded_card_status=$?
+  rm -f "$embedded_card_tmp"
+  if (( embedded_card_status == 1 )) &&
+    printf '%s' "$embedded_card_out" | grep -q 'credit-card-like'; then
+    printf '  [ok]   card-shaped digits inside an unlabeled 64-hex token are detected\n'
+  else
+    printf '  [FAIL] unlabeled 64-hex token hid a card-shaped value\n'
     pass=0
   fi
 

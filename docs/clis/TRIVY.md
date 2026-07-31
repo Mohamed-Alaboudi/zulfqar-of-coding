@@ -19,7 +19,7 @@ Operational boundaries:
 - Review the image pin and upstream release notes before updating it.
 - Secret scanning remains the responsibility of `scripts/scan-secrets.sh`; the Trivy wrapper does not duplicate it or suppress this toolkit's synthetic scanner fixtures.
 - The first scan downloads vulnerability data over the network into the disposable container.
-- The non-sensitive vulnerability database is retained in the `zulfqar-trivy-cache` Docker volume so later scans do not re-download it; remove that volume separately when you want to reclaim it.
+- The non-sensitive vulnerability database is retained in the `zulfiqar-trivy-cache` Docker volume so later scans do not re-download it; remove that volume separately when you want to reclaim it.
 - Keep private registries, production clusters, cloud credentials, and unrelated host paths outside the container.
 - Treat findings as evidence to investigate, not an automatic compliance decision.
 - Generate or publish SBOMs only when the repository owner has approved the artifact and its dependency disclosure.

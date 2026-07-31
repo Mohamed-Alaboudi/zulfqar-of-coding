@@ -1,0 +1,11 @@
+skill: run
+should_fire:
+  - run the app so i can see it
+  - start the dev server
+  - launch this and screenshot it
+  - does this actually work in the app
+must_not_fire:
+  - ship it
+  - deploy this externally
+  - run the tests
+  - build this feature

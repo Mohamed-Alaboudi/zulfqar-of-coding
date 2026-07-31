@@ -1,0 +1,11 @@
+skill: xlsx
+should_fire:
+  - open the xlsx i provided and clean it up
+  - make me a spreadsheet of this data
+  - add a column with the totals to that excel file
+  - convert this csv into a formatted spreadsheet
+must_not_fire:
+  - make a word doc
+  - read this json
+  - write a python script to parse csv
+  - make a pdf

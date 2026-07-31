@@ -1,0 +1,11 @@
+skill: simplify
+should_fire:
+  - clean up this function its messy
+  - refactor this to be more readable
+  - simplify the changes i just made
+  - make this code shorter
+must_not_fire:
+  - fix this bug
+  - make this faster
+  - review this for security
+  - write tests for this

@@ -1,0 +1,12 @@
+skill: security
+should_fire:
+  - im writing code that takes a user-supplied file path
+  - this fetches a url the agent chose is that safe
+  - im using an llm to grade output can that be gamed
+  - this endpoint takes a filename from the user and reads it
+must_not_fire:
+  - review this for security issues
+  - do a security review of this branch
+  - check this endpoint for vulnerabilities
+  - scan this for secrets
+  - is this password strong

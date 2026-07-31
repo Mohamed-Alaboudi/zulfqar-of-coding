@@ -100,12 +100,12 @@ check_skills_dir() {
       fail "${label} skill missing: ${dir}/${skill_name}/SKILL.md"
       missing=$((missing + 1))
     elif ! cmp -s "${REPO_ROOT}/skills/${skill_name}/SKILL.md" "${dir}/${skill_name}/SKILL.md"; then
-      fail "${label} skill differs from this Zulfqar release: ${dir}/${skill_name}/SKILL.md"
+      fail "${label} skill differs from this Zulfiqar release: ${dir}/${skill_name}/SKILL.md"
       missing=$((missing + 1))
     fi
   done < "${manifest}"
   if [ "${missing}" -eq 0 ]; then
-    pass "${label} has all ${expected} expected Zulfqar skills: ${dir}"
+    pass "${label} has all ${expected} expected Zulfiqar skills: ${dir}"
   fi
 }
 

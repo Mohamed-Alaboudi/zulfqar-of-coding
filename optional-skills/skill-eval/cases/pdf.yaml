@@ -1,0 +1,11 @@
+skill: pdf
+should_fire:
+  - extract the text from this pdf
+  - merge these three pdfs into one
+  - fill out this pdf form
+  - what tables are in this pdf
+must_not_fire:
+  - convert my markdown to a pdf
+  - make a word doc
+  - read this text file
+  - screenshot this page

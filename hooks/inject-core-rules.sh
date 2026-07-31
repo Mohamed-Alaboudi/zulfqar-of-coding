@@ -16,7 +16,7 @@
 #   The example rules shipped here are generic and safe to adapt. Fail-open:
 #   any error -> emit nothing, session proceeds normally.
 #
-# Portable pattern from the Zulfqar of Coding toolkit. See the README beside
+# Portable pattern from the Zulfiqar toolkit. See the README beside
 # this file for how to reimplement for Codex / Gemini CLI.
 set -euo pipefail
 

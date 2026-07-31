@@ -1,0 +1,14 @@
+skill: unstick
+should_fire:
+  - still failing same error as before
+  - that didnt work either third time now
+  - we keep going in circles on this
+  - same stack trace again after your fix
+  - youve tried this twice already and its still broken
+  - nope still not working
+must_not_fire:
+  - this test is failing can you look
+  - im getting a 500 on the endpoint
+  - fix this typo
+  - why does this function return undefined
+  - the build broke after my last commit

@@ -1,0 +1,12 @@
+skill: agent-reach
+should_fire:
+  - whats everyone saying about this on reddit
+  - look up what people think of this product on social media
+  - research this topic across social platforms
+  - pull the comments off this xiaohongshu link
+  - find discussions about this on hacker news
+must_not_fire:
+  - summarize this article for me
+  - translate this to arabic
+  - write a blog post about this
+  - whats 2+2

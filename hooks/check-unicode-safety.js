@@ -11,7 +11,7 @@
 //   node check-unicode-safety.js --write    also sanitize writable text files
 //   CC_UNICODE_SCAN_ROOT=. node check-unicode-safety.js   set the scan root
 //
-// Portable pattern from the Zulfqar of Coding toolkit. See the README beside
+// Portable pattern from the Zulfiqar toolkit. See the README beside
 // this file for reimplementation notes.
 
 const fs = require('fs');

@@ -1,6 +1,6 @@
 ---
 name: prompt-creator
-description: 'Meta-prompt master — turns a rough idea, one-liner, messy draft, or underperforming prompt into one excellent prompt for a model/agent. Triggers: "turn this into a prompt", "make this a better prompt", "meta-prompt this", "write/improve a prompt", "draft a system prompt / agent instructions". NOT for a self-contained handoff prompt (already bookended) or voice/TTS scripts (project TTS rules govern).'
+description: 'Turn a rough idea or underperforming draft into one strong prompt. Use for requests such as "turn this into a prompt", "improve this prompt", or "draft agent instructions"; not for handoffs or voice scripts.'
 ---
 
 # Prompt Creator — meta-prompt master
@@ -11,6 +11,15 @@ task description, a half-written draft, or an existing prompt that isn't working
 every time: **understand the real intent, fill the gaps, and build the smallest prompt that reliably
 produces what they want.** Reusability is not the goal — fitness for *this* job is. (If the result
 happens to be a durable system/agent prompt, fine; if it's a one-shot, that's fine too.)
+
+## Choose the contract depth
+
+- **Bounded prompt:** one supervised task where the user can inspect and correct the next output.
+- **Long-horizon brief:** an unattended or multi-agent run that must return a finished, verified artifact rather than a status report.
+
+Default to the bounded form unless the task will compound mistakes without supervision. The forms compose: a long-horizon brief can use the bounded spine below for each worker packet.
+
+For either form, use exact paths and interface names when they are known, give every action an expected result, avoid placeholders such as "handle edge cases," split work into independently checkable units, and self-review the finished prompt against the original ask.
 
 ## The loop
 
@@ -85,6 +94,19 @@ The gaps worth probing in steps 1–2 usually live in these buckets — pick the
 Examples · XML/Markdown sectioning · a one-sentence role · being specific about desired output · a
 clear output contract · explaining the why · bookend placement. Don't over-correct into a bare prompt.
 
+## Long-horizon rigor
+
+For unattended, research-grade, or adversarially evaluated work:
+
+- State an exact success predicate over the returned artifact, including degenerate cases.
+- List plausible answer-shaped near misses that do not count as completion.
+- Give the verifier a short, domain-specific failure-mode hunt list.
+- Pair every persistence instruction with an evidence-backed verification gate.
+- Make the return condition depend on the artifact passing that gate, not effort or confidence.
+- Preserve early independence among parallel workers and treat fast consensus as a possible shared-bias signal.
+
+Keep budgets, permissions, worker topology, and durable runtime state in the harness or delegation workflow. This skill owns the prompt contract, not enforcement machinery.
+
 ## Cache & delegation
 Put stable repeated instructions first, dynamic/user-specific details last (cache-friendly + bookend
 both want the task at the end). For a **subagent** prompt, restate the load-bearing constraints it
@@ -95,8 +117,7 @@ For high-stakes prompts, iterate: a stronger model can refine a prompt for a wea
 prompting); even synonym-level edits can move results; an eval/voting loop beats one-shot. Machine
 optimizers (DSPy, OPRO, TextGrad) measurably beat hand-written prompts when you have a metric — reach
 for them only when you have evals, not for a one-off. When a prompt-DESIGN fork is genuinely hard or
-ambiguous (competing structures, unclear which framing wins), get a fresh, uncorrelated second
-opinion that stress-tests the leading option before committing — not for routine prompts.
+ambiguous (competing structures, unclear which framing wins), get one fresh, uncorrelated second opinion that stress-tests the leading option before committing — not for routine prompts.
 
 ## Handing off / edge cases
 - **A cold-resume handoff prompt for a future agent session** — don't author or re-bookend it here;

@@ -1,0 +1,11 @@
+skill: brainstorming
+should_fire:
+  - lets think through what this feature should even do
+  - im not sure what to build here, help me explore
+  - brainstorm some approaches for this
+  - what are the options for how this could work
+must_not_fire:
+  - build this feature
+  - fix this bug
+  - write the plan for this
+  - deploy this

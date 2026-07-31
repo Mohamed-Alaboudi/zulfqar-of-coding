@@ -76,6 +76,30 @@ or original code.
   *category structure* (multiple PII/secret pattern classes checked in one
   pass) modeled after ruflo's aidefence component, implemented independently.
 
+### Superpowers workflow patterns
+
+- **What**: The `brainstorming`, `receiving-code-review`,
+  `systematic-debugging`, `unstick`, `verification-before-completion`, and
+  `writing-plans` skill bodies.
+- **Upstream pattern from**:
+  [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
+- **License**: MIT, Copyright (c) 2025 Jesse Vincent.
+- **Relationship**: Reimplemented. Zulfiqar keeps the broad design-first,
+  evidence-first debugging, review intake, strategy reset, verification gate,
+  and executable-planning ideas while using new, condensed prose and
+  structure. It does not ship the upstream skill bodies or helper files.
+
+### Stop Slop editing pattern
+
+- **What**: The compact `stop-slop` skill body.
+- **Upstream pattern from**:
+  [Hardik Pandya's Stop Slop](https://github.com/aiskillstore/marketplace/tree/main/skills/hardikpandya/stop-slop).
+- **License**: MIT, Copyright (c) 2025 Hardik Pandya.
+- **Relationship**: Reimplemented. Zulfiqar applies the general practice of
+  removing generic AI-writing habits with new prose and a smaller two-pass
+  workflow. It does not ship the upstream body, reference files, or bundled
+  license file.
+
 ## License summary
 
 | Artifact | Upstream license | Relationship |
@@ -85,12 +109,22 @@ or original code.
 | `security-validators` SSRF guard | See upstream (patterns catalog) | Reimplemented |
 | `security-validators` path guard | MIT (modelcontextprotocol/servers) | Reimplemented |
 | `pii-scan` pattern | See upstream | Reimplemented |
+| Six Superpowers-inspired skill bodies | MIT | Reimplemented |
+| `stop-slop` skill body | MIT | Reimplemented |
 
 ## MIT license text
 
+The newly attributed upstream works retain these notices:
+
+```text
+Copyright (c) 2025 Jesse Vincent
+Copyright (c) 2025 Hardik Pandya
+```
+
 The MIT items above (`config-protection.js`, from affaan-m/ECC; and the
-`security-validators` path guard, from modelcontextprotocol/servers) are
-covered by the standard MIT license text, reproduced once here:
+`security-validators` path guard, from modelcontextprotocol/servers), plus the
+Superpowers and Stop Slop patterns, use the standard MIT license text
+reproduced once here:
 
 ```
 MIT License

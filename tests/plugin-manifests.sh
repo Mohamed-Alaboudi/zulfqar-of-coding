@@ -16,8 +16,12 @@ done
 }
 
 for manifest in .codex-plugin/plugin.json .claude-plugin/plugin.json; do
-  grep -q '"name": "zulfqar-of-coding"' "${REPO_ROOT}/${manifest}" || {
+  grep -q '"name": "zulfiqar"' "${REPO_ROOT}/${manifest}" || {
     printf 'FAIL: wrong plugin name in %s\n' "${manifest}" >&2
+    exit 1
+  }
+  grep -q '"repository": "https://github.com/Mohamed-Alaboudi/zulfiqar"' "${REPO_ROOT}/${manifest}" || {
+    printf 'FAIL: wrong repository URL in %s\n' "${manifest}" >&2
     exit 1
   }
   grep -q '"skills": "./skills/"' "${REPO_ROOT}/${manifest}" || {

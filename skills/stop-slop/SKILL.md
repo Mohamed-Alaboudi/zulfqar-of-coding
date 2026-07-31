@@ -1,65 +1,51 @@
 ---
 name: stop-slop
-description: "The LIGHTER pass for removing generic AI tells (the 'not just X, it's Y' cadence, 'delve', em-dash spam, hedging) while drafting, editing, or reviewing prose — no voice match, no corpus needed. This is the standard AI-tell pass (humanizer archived 2026-07-09 — no voice-matched rewrite currently installed)."
+description: "Use while drafting, editing, or reviewing prose to remove generic AI-writing habits without imitating a person's voice. Not for fact-checking, substantive review, or voice matching."
 ---
 
 # Stop Slop
 
-Eliminate predictable AI writing patterns from prose.
+Make prose sound deliberate and specific while preserving its facts, intent,
+and useful caveats.
 
-## Core Rules
+## Pass 1: structure
 
-1. **Cut filler phrases.** Remove throat-clearing openers, emphasis crutches, and all adverbs. See [references/phrases.md](references/phrases.md).
+- Cut introductions that announce the point before stating it.
+- Remove repeated conclusions and summaries that add no new information.
+- Replace canned setup-and-reveal contrasts with the direct claim.
+- Break mechanical sequences of equal-length paragraphs or three-part lists.
+- Keep headings only when they help a reader navigate.
 
-2. **Break formulaic structures.** Avoid binary contrasts, negative listings, dramatic fragmentation, rhetorical setups, false agency. See [references/structures.md](references/structures.md).
+## Pass 2: sentences
 
-3. **Use active voice.** Every sentence needs a human subject doing something. No passive constructions. No inanimate objects performing human actions ("the complaint becomes a fix").
+- Prefer concrete nouns and verbs over vague importance or intensity.
+- Name the actor when passive voice hides responsibility.
+- Replace business jargon with the shortest accurate term.
+- Remove filler, empty reassurance, and transitions the paragraph already
+  makes clear.
+- Limit punctuation used as a dramatic beat, including repeated em dashes and
+  fragments.
+- Vary sentence length when the rhythm feels generated, but do not manufacture
+  variety at the cost of clarity.
 
-4. **Be specific.** No vague declaratives ("The reasons are structural"). Name the specific thing. No lazy extremes ("every," "always," "never") doing vague work.
+## Guardrails
 
-5. **Put the reader in the room.** No narrator-from-a-distance voice. "You" beats "People." Specifics beat abstractions.
+- Do not change technical terms, quoted material, legal language, or required
+  safety caveats without a substantive reason.
+- Do not invent examples or certainty to make a sentence sound stronger.
+- Do not apply a mechanical word ban. Keep a phrase when it is the clearest
+  wording in context.
+- Preserve the writer's humor, bluntness, and domain vocabulary.
 
-6. **Vary rhythm.** Mix sentence lengths. Two items beat three. End paragraphs differently. No em dashes.
+## Output
 
-7. **Trust readers.** State facts directly. Skip softening, justification, hand-holding.
+Return the revised prose. Explain edits only when the user asks, or when a
+meaningful ambiguity requires a decision.
 
-8. **Cut quotables.** If it sounds like a pull-quote, rewrite it.
+## Provenance
 
-## Quick Checks
-
-Before delivering prose:
-
-- Any adverbs? Kill them.
-- Any passive voice? Find the actor, make them the subject.
-- Inanimate thing doing a human verb ("the decision emerges")? Name the person.
-- Sentence starts with a Wh- word? Restructure it.
-- Any "here's what/this/that" throat-clearing? Cut to the point.
-- Any "not X, it's Y" contrasts? State Y directly.
-- Three consecutive sentences match length? Break one.
-- Paragraph ends with punchy one-liner? Vary it.
-- Em-dash anywhere? Remove it.
-- Vague declarative ("The implications are significant")? Name the specific implication.
-- Narrator-from-a-distance ("Nobody designed this")? Put the reader in the scene.
-- Meta-joiners ("The rest of this essay...")? Delete. Let the essay move.
-
-## Scoring
-
-Rate 1-10 on each dimension:
-
-| Dimension | Question |
-|-----------|----------|
-| Directness | Statements or announcements? |
-| Rhythm | Varied or metronomic? |
-| Trust | Respects reader intelligence? |
-| Authenticity | Sounds human? |
-| Density | Anything cuttable? |
-
-Below 35/50: revise.
-
-## Examples
-
-See [references/examples.md](references/examples.md) for before/after transformations.
-
-## License
-
-MIT
+This compact Zulfiqar workflow is an independent reimplementation inspired by
+Hardik Pandya's
+[Stop Slop](https://github.com/aiskillstore/marketplace/tree/main/skills/hardikpandya/stop-slop).
+It does not reproduce the upstream skill or reference text. See
+`THIRD-PARTY-NOTICES.md`.

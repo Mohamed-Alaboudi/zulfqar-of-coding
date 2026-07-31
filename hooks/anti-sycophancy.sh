@@ -8,7 +8,7 @@
 # turn. Fail-open always: any error (no jq, empty stdin, bad JSON) -> emit
 # nothing, exit 0.
 #
-# Portable pattern from the Zulfqar of Coding toolkit.
+# Portable pattern from the Zulfiqar toolkit.
 
 # Confirmation-seeking patterns to scan for (case-insensitive, extended regex).
 # Keep this list readable; add/remove one phrase per line inside the group.

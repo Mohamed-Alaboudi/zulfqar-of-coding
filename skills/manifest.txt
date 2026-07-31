@@ -1,4 +1,4 @@
-# Canonical Zulfqar skill set. One directory name per line.
+# Canonical Zulfiqar skill set. One directory name per line.
 bookend
 brainstorming
 common-ground

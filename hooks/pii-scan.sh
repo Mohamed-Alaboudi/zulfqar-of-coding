@@ -45,7 +45,7 @@
 #   pre-commit tooling. This file is an independent, from-scratch
 #   reimplementation: no code, regex literals, or text were copied from that
 #   or any other project. Category list, severities, and redaction scheme are
-#   original choices. Ships in the Zulfqar of Coding toolkit.
+#   original choices. Ships in the Zulfiqar toolkit.
 #
 # COMPANION
 #   Complements hooks/git-guardrail.sh, which blocks staging/committing

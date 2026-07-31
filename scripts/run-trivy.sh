@@ -6,7 +6,7 @@ TRIVY_IMAGE="aquasec/trivy:0.72.0@sha256:cffe3f5161a47a6823fbd23d985795b3ed72a4c
 
 case "${1:-}" in
   --print-command)
-    printf 'docker run --rm -v <repo>:/workspace:ro -v zulfqar-trivy-cache:/root/.cache/trivy -w /workspace %s fs --exit-code 1 --severity HIGH,CRITICAL --scanners vuln,misconfig,license .\n' "${TRIVY_IMAGE}"
+    printf 'docker run --rm -v <repo>:/workspace:ro -v zulfiqar-trivy-cache:/root/.cache/trivy -w /workspace %s fs --exit-code 1 --severity HIGH,CRITICAL --scanners vuln,misconfig,license .\n' "${TRIVY_IMAGE}"
     exit 0
     ;;
   -h|--help)
@@ -23,7 +23,7 @@ esac
 
 exec docker run --rm \
   -v "${REPO_ROOT}:/workspace:ro" \
-  -v "zulfqar-trivy-cache:/root/.cache/trivy" \
+  -v "zulfiqar-trivy-cache:/root/.cache/trivy" \
   -w /workspace \
   "${TRIVY_IMAGE}" \
   fs \

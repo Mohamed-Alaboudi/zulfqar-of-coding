@@ -1,0 +1,10 @@
+skill: schedule
+should_fire:
+  - schedule this to run every morning
+  - set up a recurring agent for this
+  - remind me to check this tomorrow at 3
+must_not_fire:
+  - run this every 5 minutes in this session
+  - do this now
+  - add to my google calendar
+  - set a timer
